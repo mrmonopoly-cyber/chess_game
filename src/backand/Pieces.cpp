@@ -1,7 +1,8 @@
 #include <cmath>
-#include <valarray>
 
 #include "Piece.h"
+
+using namespace backand;
 
 enum piece_movement {
   VERTICAL = (1 << 0),
@@ -9,16 +10,6 @@ enum piece_movement {
   DIAGONAL = (1 << 2),
   L_MOVE = (1 << 3),
   ONLY_UP = (1 << 4)
-};
-
-enum PIECE_TYPE {
-  NULL_PIECE = 0,
-  PAWN = (1 << 0),
-  KNIGHT = (1 << 1),
-  BISHOP = (1 << 2),
-  ROOK = (1 << 3),
-  QUEEN = (1 << 4),
-  KING = (1 << 5)
 };
 
 bool valid_move(unsigned int movement, unsigned int range,
@@ -33,7 +24,7 @@ bool valid_move(unsigned int movement, unsigned int range,
       }
       break;
     case ONLY_UP &VERTICAL:
-      if (range == 1) {
+      if (diff_x == 0 && range == 1) {
         return true;
       }
       break;
@@ -55,57 +46,64 @@ bool valid_move(unsigned int movement, unsigned int range,
   return false;
 }
 
-Piece::Piece(unsigned int type, unsigned int movement, int range) {
+Piece::Piece(PIECE_TYPE type, unsigned int movement, unsigned int attack,
+             int range) {
   this->type = type;
   this->valid_movement = movement;
+  this->valid_attack = attack;
+  if (attack == 0) {
+    this->valid_attack = movement;
+  }
   this->range = range;
 }
+
+bool Piece::normal_move_no_context(position &start_position,
+                                   position &end_position) {
+  return valid_move(this->valid_movement, this->range, start_position,
+                    end_position);
+}
+
+bool Piece::attack_move_no_context(position &start_position,
+                                   position &end_position) {
+  return valid_move(this->valid_attack, this->range, start_position,
+                    end_position);
+}
+
+bool Piece::special_move_no_context(position &start_position,
+                                    position &end_position) {
+  return false;
+}
+
 Piece::~Piece() { delete this; }
 
 class Pawn : protected Piece {
-  Pawn() : Piece::Piece(PAWN, VERTICAL | ONLY_UP, 1){};
-  bool normal_move_no_context(position &start_position,
-                              position &end_position) {
+  Pawn() : Piece::Piece(PAWN, VERTICAL | ONLY_UP, DIAGONAL | ONLY_UP, 1){};
+  bool special_move_no_context(position &start_position,
+                               position &end_position) {
     return false;
   }
 };
 
 class Knight : protected Piece {
-  Knight() : Piece::Piece(KNIGHT, L_MOVE, 3){};
-  bool normal_move_no_context(position &start_position,
-                              position &end_position) {
-    return true;
-  }
+  Knight() : Piece::Piece(KNIGHT, L_MOVE, 0, 3){};
 };
 
 class Bishop : protected Piece {
-  Bishop() : Piece::Piece(BISHOP, DIAGONAL, -1){};
-  bool normal_move_no_context(position &start_position,
-                              position &end_position) {
-    return true;
-  }
+  Bishop() : Piece::Piece(BISHOP, DIAGONAL, 0, -1){};
 };
 
 class Rook : protected Piece {
-  Rook() : Piece::Piece(ROOK, VERTICAL | HORIZONTAL, -1){};
-  bool normal_move_no_context(position &start_position,
-                              position &end_position) {
-    return true;
-  }
+  Rook() : Piece::Piece(ROOK, VERTICAL | HORIZONTAL, 0, -1){};
 };
 
 class Queen : protected Piece {
-  Queen() : Piece::Piece(QUEEN, VERTICAL | HORIZONTAL | DIAGONAL, -1){};
-  bool normal_move_no_context(position &start_position,
-                              position &end_position) {
-    return true;
-  }
+  Queen() : Piece::Piece(QUEEN, VERTICAL | HORIZONTAL | DIAGONAL, 0, -1){};
 };
 
 class King : protected Piece {
-  King() : Piece::Piece(KING, VERTICAL | HORIZONTAL | DIAGONAL, 1){};
-  bool normal_move_no_context(position &start_position,
-                              position &end_position) {
-    return true;
+  King() : Piece::Piece(KING, VERTICAL | HORIZONTAL | DIAGONAL, 0, 1){};
+  bool special_move_no_context(position &start_position,
+                               position &end_position) {
+    return false;
   }
 };
