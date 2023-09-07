@@ -2,6 +2,7 @@
 #define _GAME_
 
 #include <cmath>
+#include <vector>
 
 #include "Piece.h"
 
@@ -11,7 +12,7 @@ class Game {
  protected:
   Game();
   Game(unsigned int board_size);
-  virtual ~Game();
+  ~Game();
   void try_move_piece(position &start_position, position &end_position);
 
  private:
@@ -21,12 +22,11 @@ class Game {
   };
 
   unsigned int board_size;
-  Piece *Pieces_properties;
+  std::vector<Piece *> Pieces_properties;
   piece_in_board *board;
   // Game_log moves_history;
 
   unsigned int position_in_board(position &start_position);
-  void create_pieces();
 };
 
 }  // namespace backand

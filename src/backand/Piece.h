@@ -17,7 +17,6 @@ class Piece {
   Piece(const PIECE_TYPE type, const unsigned int movement,
         const unsigned int attack, const int range);
   ~Piece();
-  Piece &operator=(Piece &&other) noexcept;
   bool normal_move_no_context(position &start_position, position &end_position);
   bool attack_move_no_context(position &start_position, position &end_position);
   bool special_move_no_context(position &start_position,
@@ -42,30 +41,35 @@ class Piece {
                   position &start_position, position &end_position);
 };
 
-class Pawn : protected Piece {
+class Pawn : public Piece {
+ public:
   Pawn();
-  Pawn &operator=(Pawn &&other) noexcept;
   bool special_move_no_context(position &start_position,
                                position &end_position);
 };
 
-class Knight : protected Piece {
+class Knight : public Piece {
+ public:
   Knight();
 };
 
-class Bishop : protected Piece {
+class Bishop : public Piece {
+ public:
   Bishop();
 };
 
-class Rook : protected Piece {
+class Rook : public Piece {
+ public:
   Rook();
 };
 
-class Queen : protected Piece {
+class Queen : public Piece {
+ public:
   Queen();
 };
 
-class King : protected Piece {
+class King : public Piece {
+ public:
   King();
   bool special_move_no_context(position &start_position,
                                position &end_position);

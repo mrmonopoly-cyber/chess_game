@@ -1,5 +1,5 @@
-#include <algorithm>
 #include <cmath>
+#include <cstddef>
 
 #include "Piece.h"
 
@@ -51,14 +51,6 @@ Piece::Piece(PIECE_TYPE type, unsigned int movement, unsigned int attack,
 }
 
 Piece::~Piece() { delete this; }
-Piece &Piece::operator=(Piece &&other) noexcept {
-  this->type = other.type;
-  this->valid_movement = other.valid_movement;
-  this->valid_attack = other.valid_attack;
-  this->range = other.range;
-  return *this;
-}
-
 bool Piece::normal_move_no_context(position &start_position,
                                    position &end_position) {
   return valid_move(this->valid_movement, this->range, start_position,
@@ -78,10 +70,6 @@ bool Piece::special_move_no_context(position &start_position,
 
 // Pawn
 Pawn::Pawn() : Piece(PAWN, VERTICAL | ONLY_UP, DIAGONAL | ONLY_UP, 1){};
-Pawn &Pawn::operator=(Pawn &&other) noexcept {
-  Piece::operator=(std::move(other));
-  return *this;
-}
 bool Pawn::special_move_no_context(position &start_position,
                                    position &end_position) {
   return false;
