@@ -1,5 +1,4 @@
-#ifndef _GAME_
-#define _GAME_
+#pragma one
 
 #include <cmath>
 #include <vector>
@@ -30,4 +29,3 @@ class Game {
 };
 
 }  // namespace backand
-#endif  // !_GAME_

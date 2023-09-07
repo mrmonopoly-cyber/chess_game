@@ -1,6 +1,4 @@
-#ifndef _ALL_PIECES_
-#define _ALL_PIECES_
-
+#pragma one
 namespace backand {
 
 struct position {
@@ -76,4 +74,3 @@ class King : public Piece {
 };
 
 }  // namespace backand
-#endif  // !_ALL_PIECES_
