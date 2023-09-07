@@ -1,19 +1,12 @@
+#include <algorithm>
 #include <cmath>
 
 #include "Piece.h"
 
 using namespace backand;
 
-enum piece_movement {
-  VERTICAL = (1 << 0),
-  HORIZONTAL = (1 << 1),
-  DIAGONAL = (1 << 2),
-  L_MOVE = (1 << 3),
-  ONLY_UP = (1 << 4)
-};
-
-bool valid_move(unsigned int movement, unsigned int range,
-                position &start_position, position &end_position) {
+bool Piece::valid_move(unsigned int movement, unsigned int range,
+                       position &start_position, position &end_position) {
   int diff_x = std::abs(start_position.x - end_position.x);
   int diff_y = std::abs(start_position.y - end_position.y);
 
@@ -57,6 +50,15 @@ Piece::Piece(PIECE_TYPE type, unsigned int movement, unsigned int attack,
   this->range = range;
 }
 
+Piece::~Piece() { delete this; }
+Piece &Piece::operator=(Piece &&other) noexcept {
+  this->type = other.type;
+  this->valid_movement = other.valid_movement;
+  this->valid_attack = other.valid_attack;
+  this->range = other.range;
+  return *this;
+}
+
 bool Piece::normal_move_no_context(position &start_position,
                                    position &end_position) {
   return valid_move(this->valid_movement, this->range, start_position,
@@ -74,36 +76,32 @@ bool Piece::special_move_no_context(position &start_position,
   return false;
 }
 
-Piece::~Piece() { delete this; }
+// Pawn
+Pawn::Pawn() : Piece(PAWN, VERTICAL | ONLY_UP, DIAGONAL | ONLY_UP, 1){};
+Pawn &Pawn::operator=(Pawn &&other) noexcept {
+  Piece::operator=(std::move(other));
+  return *this;
+}
+bool Pawn::special_move_no_context(position &start_position,
+                                   position &end_position) {
+  return false;
+}
 
-class Pawn : protected Piece {
-  Pawn() : Piece::Piece(PAWN, VERTICAL | ONLY_UP, DIAGONAL | ONLY_UP, 1){};
-  bool special_move_no_context(position &start_position,
-                               position &end_position) {
-    return false;
-  }
-};
+// Knight
+Knight::Knight() : Piece(KNIGHT, L_MOVE, 0, 3){};
 
-class Knight : protected Piece {
-  Knight() : Piece::Piece(KNIGHT, L_MOVE, 0, 3){};
-};
+// Bishop
+Bishop::Bishop() : Piece::Piece(BISHOP, DIAGONAL, 0, -1){};
 
-class Bishop : protected Piece {
-  Bishop() : Piece::Piece(BISHOP, DIAGONAL, 0, -1){};
-};
+// Rook
+Rook::Rook() : Piece::Piece(ROOK, VERTICAL | HORIZONTAL, 0, -1){};
 
-class Rook : protected Piece {
-  Rook() : Piece::Piece(ROOK, VERTICAL | HORIZONTAL, 0, -1){};
-};
+// Queen
+Queen::Queen() : Piece::Piece(QUEEN, VERTICAL | HORIZONTAL | DIAGONAL, 0, -1){};
 
-class Queen : protected Piece {
-  Queen() : Piece::Piece(QUEEN, VERTICAL | HORIZONTAL | DIAGONAL, 0, -1){};
-};
-
-class King : protected Piece {
-  King() : Piece::Piece(KING, VERTICAL | HORIZONTAL | DIAGONAL, 0, 1){};
-  bool special_move_no_context(position &start_position,
-                               position &end_position) {
-    return false;
-  }
-};
+// King
+King::King() : Piece::Piece(KING, VERTICAL | HORIZONTAL | DIAGONAL, 0, 1){};
+bool King::special_move_no_context(position &start_position,
+                                   position &end_position) {
+  return false;
+}
