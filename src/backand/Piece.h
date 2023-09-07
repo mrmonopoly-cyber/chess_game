@@ -16,9 +16,9 @@ class Piece {
   Piece(PIECE_TYPE type, unsigned int movement, unsigned int attack, int range);
   bool normal_move_no_context(position &start_position, position &end_position);
   bool attack_move_no_context(position &start_position, position &end_position);
-  bool special_move_no_context(position &start_position,
-                               position &end_position);
-  ~Piece();
+  virtual bool special_move_no_context(position &start_position,
+                                       position &end_position) = 0;
+  virtual ~Piece();
 
  private:
   PIECE_TYPE type;
