@@ -10,7 +10,8 @@ namespace backand {
 class Game {
  protected:
   Game();
-  Game(unsigned int board_size, std::vector<Piece> pieces_properties);
+  Game(const unsigned int board_size,
+       const std::vector<Piece> pieces_properties);
   ~Game();
   void try_move_piece(position &start_position, position &end_position);
 
@@ -19,7 +20,10 @@ class Game {
     char *piece_type;
     Piece::PIECE_COLOR color;
   };
+  static const unsigned int default_size = 8;
+
   std::vector<Piece> pieces_properties;
+  const unsigned int side_length;
   const board_cell *board;
   // Game_log moves_history;
 
