@@ -19,7 +19,6 @@ class Game {
     char *piece_type;
     Piece::PIECE_COLOR color;
   };
-  const unsigned int board_size;
   std::vector<Piece> pieces_properties;
   const board_cell *board;
   // Game_log moves_history;
