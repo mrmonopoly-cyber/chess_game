@@ -26,12 +26,12 @@ class Game {
 
   std::vector<Piece> pieces_properties;
   const unsigned int side_length;
-  struct board_cell *board;
+  struct board_cell *const board;
   // Game_log moves_history;
 
   void put_piece_on_board(const std::string piece_name,
                           const Piece::PIECE_COLOR color,
-                          const unsigned int pos);
+                          const unsigned int pos) const;
   unsigned int position_in_board(position &start_position) const;
   bool valid_move_no_context(position &start_position,
                              position &end_position) const;

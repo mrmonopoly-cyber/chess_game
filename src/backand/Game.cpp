@@ -90,7 +90,7 @@ void Game::print_board() const {
 // private
 void Game::put_piece_on_board(const std::string piece_name,
                               const Piece::PIECE_COLOR color,
-                              const unsigned int pos) {
+                              const unsigned int pos) const {
   this->board[pos].piece_type = piece_name;
   this->board[pos].color = color;
 }
