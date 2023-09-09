@@ -1,4 +1,6 @@
-#pragma one
+#ifndef _GENERIC_PIECE_
+#define _GENERIC_PIECE_
+
 namespace backand {
 
 struct position {
@@ -10,15 +12,16 @@ class Piece {
  public:
   enum PIECE_COLOR { BLACK = 0, WHITE };
 
-  Piece();
-  Piece(const int range);
+  Piece() = delete;
+  Piece(const char *const name);
+  Piece(const int range, const char *const name);
   ~Piece();
   virtual bool normal_move_no_context(const position &start_position,
-                                      const position &end_position) const = 0;
+                                      const position &end_position);
   virtual bool attack_move_no_context(const position &start_position,
-                                      const position &end_position) const = 0;
+                                      const position &end_position);
   virtual bool special_move_no_context(const position &start_position,
-                                       const position &end_position) const = 0;
+                                       const position &end_position);
 
  protected:
   bool vertical_check(const position &start_position,
@@ -30,6 +33,7 @@ class Piece {
 
  protected:
   unsigned int range;
+  const char *const name;
 };
 
 class Pawn : public Piece {
@@ -37,11 +41,11 @@ class Pawn : public Piece {
   Pawn();
   ~Pawn();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool special_move_no_context(position const &start_position,
-                               position const &end_position) const override;
+                               position const &end_position) const;
 };
 
 class Knight : public Piece {
@@ -49,9 +53,9 @@ class Knight : public Piece {
   Knight();
   ~Knight();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
 
  private:
   bool l_movement(const position &start_position,
@@ -63,11 +67,11 @@ class Bishop : public Piece {
   Bishop();
   ~Bishop();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool special_move_no_context(position const &start_position,
-                               position const &end_position) const override;
+                               position const &end_position) const;
 };
 
 class Rook : public Piece {
@@ -75,11 +79,11 @@ class Rook : public Piece {
   Rook();
   ~Rook();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool special_move_no_context(position const &start_position,
-                               position const &end_position) const override;
+                               position const &end_position) const;
 };
 
 class Queen : public Piece {
@@ -87,11 +91,11 @@ class Queen : public Piece {
   Queen();
   ~Queen();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool special_move_no_context(position const &start_position,
-                               position const &end_position) const override;
+                               position const &end_position) const;
 };
 
 class King : public Piece {
@@ -99,11 +103,13 @@ class King : public Piece {
   King();
   ~King();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const override;
+                              const position &end_position) const;
   bool special_move_no_context(position const &start_position,
-                               position const &end_position) const override;
+                               position const &end_position) const;
 };
 
 }  // namespace backand
+
+#endif  // !_GENERIC_PIECE_

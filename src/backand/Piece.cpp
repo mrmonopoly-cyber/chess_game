@@ -4,7 +4,10 @@
 
 using namespace backand;
 
-Piece::Piece(const int range) : range(range) {}
+Piece::Piece(const char *const name) : range(0), name(name) {}
+Piece::Piece(const int range, const char *const name)
+    : range(range), name(name) {}
+Piece::~Piece(){};
 
 bool Piece::vertical_check(const position &start_position,
                            const position &end_position) const {

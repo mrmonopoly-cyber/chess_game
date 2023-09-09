@@ -5,7 +5,7 @@
 using namespace backand;
 
 // Pawn Piece
-Pawn::Pawn() : Piece(1) {}
+Pawn::Pawn() : Piece(1, "Pawn") {}
 Pawn::~Pawn() {}
 
 bool Pawn::normal_move_no_context(const position &start_position,
@@ -25,7 +25,7 @@ bool Pawn::special_move_no_context(position const &start_position,
 }
 // Pawn Piece end
 // Knight Piece
-Knight::Knight() : Piece(3) {}
+Knight::Knight() : Piece(3, "Knight") {}
 Knight::~Knight() {}
 
 bool Knight::l_movement(const position &start_position,
@@ -46,7 +46,7 @@ bool Knight::attack_move_no_context(const position &start_position,
 }
 // Knight Piec end
 // Bishop Piece
-Bishop::Bishop() : Piece(0) {}
+Bishop::Bishop() : Piece("Bishop") {}
 Bishop::~Bishop() {}
 
 bool Bishop::normal_move_no_context(const position &start_position,
@@ -60,7 +60,7 @@ bool Bishop::attack_move_no_context(const position &start_position,
 }
 // Bishop Piece end
 // Rook Piece
-Rook::Rook() : Piece(0) {}
+Rook::Rook() : Piece("Rook") {}
 Rook::~Rook() {}
 
 bool Rook::normal_move_no_context(const position &start_position,
@@ -75,7 +75,7 @@ bool Rook::attack_move_no_context(const position &start_position,
          Piece::horizontal_check(start_position, end_position);
 }
 // Rook Piece end
-Queen::Queen() : Piece(0) {}
+Queen::Queen() : Piece("Queen") {}
 Queen::~Queen() {}
 
 bool Queen::normal_move_no_context(const position &start_position,
@@ -93,7 +93,7 @@ bool Queen::attack_move_no_context(const position &start_position,
 }
 // Queen Piece end
 // King Piece
-King::King() : Piece(1) {}
+King::King() : Piece(1, "King") {}
 King::~King() {}
 
 bool King::normal_move_no_context(const position &start_position,
