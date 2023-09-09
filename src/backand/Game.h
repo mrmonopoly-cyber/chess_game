@@ -1,6 +1,7 @@
 #ifndef _BOARD_GAME_
 #define _BOARD_GAME_
 
+#include <string>
 #include <vector>
 
 #include "Piece.h"
@@ -17,7 +18,7 @@ class Game {
 
  private:
   struct board_cell {
-    char *piece_type;
+    std::string *piece_type;
     Piece::PIECE_COLOR color;
   };
   static const unsigned int default_size = 8;

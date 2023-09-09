@@ -1,6 +1,7 @@
 #ifndef _GENERIC_PIECE_
 #define _GENERIC_PIECE_
 
+#include <string>
 namespace backand {
 
 struct position {
@@ -33,7 +34,7 @@ class Piece {
 
  protected:
   unsigned int range;
-  const char *const name;
+  const std::string name;
 };
 
 class Pawn : public Piece {
