@@ -1,6 +1,7 @@
 #include "Piece.h"
 
 #include <cstdlib>
+#include <string>
 
 using namespace backand;
 
@@ -8,6 +9,7 @@ Piece::Piece(const char *const name) : range(0), name(name) {}
 Piece::Piece(const int range, const char *const name)
     : range(range), name(name) {}
 Piece::~Piece(){};
+std::string *Piece::piece_name() const { return new std::string(this->name); }
 
 bool Piece::vertical_check(const position &start_position,
                            const position &end_position) const {
@@ -38,5 +40,17 @@ bool Piece::diagonal_check(const position &start_position,
     return diff_y - (this->range - 1);
   }
 
+  return false;
+}
+bool Piece::normal_move_no_context(const position &start_position,
+                                   const position &end_position) {
+  return false;
+}
+bool Piece::attack_move_no_context(const position &start_position,
+                                   const position &end_position) {
+  return false;
+}
+bool Piece::special_move_no_context(const position &start_position,
+                                    const position &end_position) {
   return false;
 }

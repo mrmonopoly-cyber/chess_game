@@ -17,6 +17,7 @@ class Piece {
   Piece(const char *const name);
   Piece(const int range, const char *const name);
   ~Piece();
+  std::string *piece_name() const;
   virtual bool normal_move_no_context(const position &start_position,
                                       const position &end_position);
   virtual bool attack_move_no_context(const position &start_position,
