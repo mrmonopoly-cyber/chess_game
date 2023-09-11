@@ -11,12 +11,13 @@ using namespace backand;
 Game::Game()
     : side_length(default_size),
       board(new board_cell[default_size * default_size]) {
-  pieces_properties.push_back(*new Pawn());
-  pieces_properties.push_back(*new Knight());
-  pieces_properties.push_back(*new Bishop());
-  pieces_properties.push_back(*new Rook());
-  pieces_properties.push_back(*new Queen());
-  pieces_properties.push_back(*new King());
+  pieces_properties.reserve(6);
+  pieces_properties.emplace_back(Pawn());
+  pieces_properties.emplace_back(Knight());
+  pieces_properties.emplace_back(Bishop());
+  pieces_properties.emplace_back(Rook());
+  pieces_properties.emplace_back(Queen());
+  pieces_properties.emplace_back(King());
 
   // set Pawns
   for (int i = 0; i < default_size; i++) {
@@ -66,8 +67,11 @@ Game::Game(unsigned int board_size, const std::vector<Piece> pieces_properties)
       side_length(board_size),
       pieces_properties(pieces_properties) {}
 
-Game::~Game() { this->pieces_properties.clear(); }
-
+Game::~Game() {
+  this->pieces_properties.clear();
+  this->pieces_properties.shrink_to_fit();
+  delete[] this->board;
+}
 void Game::try_move_piece(position &start_position,
                           position &end_position) const {
   unsigned int index_in_board = position_in_board(start_position);
