@@ -15,12 +15,12 @@ Game::Game()
     : side_length(default_size),
       board(new board_cell[default_size * default_size]) {
   pieces_properties.reserve(6);
-  pieces_properties.emplace_back(Pawn());
-  pieces_properties.emplace_back(Knight());
-  pieces_properties.emplace_back(Bishop());
-  pieces_properties.emplace_back(Rook());
-  pieces_properties.emplace_back(Queen());
-  pieces_properties.emplace_back(King());
+  pieces_properties.emplace_back(new Pawn());
+  pieces_properties.emplace_back(new Knight());
+  pieces_properties.emplace_back(new Bishop());
+  pieces_properties.emplace_back(new Rook());
+  pieces_properties.emplace_back(new Queen());
+  pieces_properties.emplace_back(new King());
 
   // set Pawns
   for (int i = 0; i < default_size; i++) {
@@ -86,9 +86,9 @@ void Game::try_move_piece(position &start_position, position &end_position) {
   std::shared_ptr<Piece> end_piece;
 
   start_piece = find_piece_type(start_cell.piece_type);
-  if (start_piece != nullptr) {
+  if (start_piece) {
     end_piece = find_piece_type(end_cell.piece_type);
-    if (end_piece != nullptr) {
+    if (end_piece) {
       if (start_cell.color != end_cell.color &&
           start_piece->attack_move_no_context(start_position, end_position)) {
         move_piece_in_board(start_cell, end_cell);
@@ -133,9 +133,7 @@ std::shared_ptr<Piece> Game::find_piece_type(const std::string &type) {
   if (type.empty()) {
     return nullptr;
   }
-  std::cout << "type input: " << type << std::endl;
   for (std::shared_ptr<Piece> p : this->pieces_properties) {
-    std::cout << "in for each: " << *p->piece_name() << std::endl;
     if (*p->piece_name() == type) {
       return p;
     }
@@ -143,15 +141,15 @@ std::shared_ptr<Piece> Game::find_piece_type(const std::string &type) {
   return nullptr;
 }
 unsigned int Game::position_in_board(position &start_position) const {
-  unsigned int first_dimension = start_position.x * this->side_length;
-  unsigned int second_dimension = start_position.y;
+  unsigned int first_dimension = start_position.y * this->side_length;
+  unsigned int second_dimension = start_position.x;
   return first_dimension + second_dimension;
 }
 
 int main(int argc, char *argv[]) {
   Game game;
   struct position start = {1, 0};
-  struct position end = {2, 0};
+  struct position end = {1, 1};
   game.try_move_piece(start, end);
   game.print_board();
   return 0;

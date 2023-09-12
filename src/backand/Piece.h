@@ -20,20 +20,23 @@ class Piece {
   ~Piece();
   std::string *piece_name() const;
   virtual bool normal_move_no_context(const position &start_position,
-                                      const position &end_position) {
-    std::cout << "default operation " << std::endl;
-    return false;
-  }
+                                      const position &end_position);
+  // {
+  //   std::cout << "default operation " << std::endl;
+  //   return false;
+  // }
   virtual bool attack_move_no_context(const position &start_position,
-                                      const position &end_position) {
-    std::cout << "default operation " << std::endl;
-    return false;
-  }
+                                      const position &end_position);
+  // {
+  //   std::cout << "default operation " << std::endl;
+  //   return false;
+  // }
   virtual bool special_move_no_context(const position &start_position,
-                                       const position &end_position) {
-    std::cout << "default operation " << std::endl;
-    return false;
-  }
+                                       const position &end_position);
+  // {
+  //   std::cout << "default operation " << std::endl;
+  //   return false;
+  // }
 
  protected:
   bool vertical_check(const position &start_position,
@@ -64,9 +67,9 @@ class Knight : public Piece {
   Knight();
   ~Knight();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
 
  private:
   bool l_movement(const position &start_position,
@@ -78,9 +81,9 @@ class Bishop : public Piece {
   Bishop();
   ~Bishop();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
 };
 
 class Rook : public Piece {
@@ -88,9 +91,9 @@ class Rook : public Piece {
   Rook();
   ~Rook();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
 };
 
 class Queen : public Piece {
@@ -98,9 +101,9 @@ class Queen : public Piece {
   Queen();
   ~Queen();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
 };
 
 class King : public Piece {
@@ -108,11 +111,11 @@ class King : public Piece {
   King();
   ~King();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
   bool special_move_no_context(position const &start_position,
-                               position const &end_position) const;
+                               position const &end_position);
 };
 
 }  // namespace backand

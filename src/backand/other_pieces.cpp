@@ -30,18 +30,18 @@ Knight::~Knight() {}
 
 bool Knight::l_movement(const position &start_position,
                         const position &end_position) const {
-  unsigned int diff_x = abs(start_position.x - start_position.x);
-  unsigned int diff_y = abs(start_position.y - start_position.y);
-  return !diff_x && !diff_y && !(diff_x + diff_y - this->range);
+  unsigned int diff_x = abs(start_position.x - end_position.x);
+  unsigned int diff_y = abs(start_position.y - end_position.y);
+  return diff_x && diff_y && !(diff_x + diff_y - this->range);
 }
 
 bool Knight::normal_move_no_context(const position &start_position,
-                                    const position &end_position) const {
+                                    const position &end_position) {
   return l_movement(start_position, end_position);
 }
 
 bool Knight::attack_move_no_context(const position &start_position,
-                                    const position &end_position) const {
+                                    const position &end_position) {
   return l_movement(start_position, end_position);
 }
 // Knight Piec end
@@ -50,12 +50,12 @@ Bishop::Bishop() : Piece("Bishop") {}
 Bishop::~Bishop() {}
 
 bool Bishop::normal_move_no_context(const position &start_position,
-                                    const position &end_position) const {
+                                    const position &end_position) {
   return Piece::diagonal_check(start_position, end_position);
 }
 
 bool Bishop::attack_move_no_context(const position &start_position,
-                                    const position &end_position) const {
+                                    const position &end_position) {
   return Piece::diagonal_check(start_position, end_position);
 }
 // Bishop Piece end
@@ -64,13 +64,13 @@ Rook::Rook() : Piece("Rook") {}
 Rook::~Rook() {}
 
 bool Rook::normal_move_no_context(const position &start_position,
-                                  const position &end_position) const {
+                                  const position &end_position) {
   return Piece::vertical_check(start_position, end_position) ||
          Piece::horizontal_check(start_position, end_position);
 }
 
 bool Rook::attack_move_no_context(const position &start_position,
-                                  const position &end_position) const {
+                                  const position &end_position) {
   return Piece::vertical_check(start_position, end_position) ||
          Piece::horizontal_check(start_position, end_position);
 }
@@ -79,14 +79,14 @@ Queen::Queen() : Piece("Queen") {}
 Queen::~Queen() {}
 
 bool Queen::normal_move_no_context(const position &start_position,
-                                   const position &end_position) const {
+                                   const position &end_position) {
   return Piece::vertical_check(start_position, end_position) ||
          Piece::horizontal_check(start_position, end_position) ||
          Piece::diagonal_check(start_position, end_position);
 }
 
 bool Queen::attack_move_no_context(const position &start_position,
-                                   const position &end_position) const {
+                                   const position &end_position) {
   return Piece::vertical_check(start_position, end_position) ||
          Piece::horizontal_check(start_position, end_position) ||
          Piece::diagonal_check(start_position, end_position);
@@ -97,14 +97,14 @@ King::King() : Piece(1, "King") {}
 King::~King() {}
 
 bool King::normal_move_no_context(const position &start_position,
-                                  const position &end_position) const {
+                                  const position &end_position) {
   return Piece::vertical_check(start_position, end_position) ||
          Piece::horizontal_check(start_position, end_position) ||
          Piece::diagonal_check(start_position, end_position);
 }
 
 bool King::attack_move_no_context(const position &start_position,
-                                  const position &end_position) const {
+                                  const position &end_position) {
   return Piece::vertical_check(start_position, end_position) ||
          Piece::horizontal_check(start_position, end_position) ||
          Piece::diagonal_check(start_position, end_position);
@@ -112,7 +112,7 @@ bool King::attack_move_no_context(const position &start_position,
 
 // todo : implement castle
 bool King::special_move_no_context(position const &start_position,
-                                   position const &end_position) const {
+                                   position const &end_position) {
   return false;
 }
 // King Piece end
