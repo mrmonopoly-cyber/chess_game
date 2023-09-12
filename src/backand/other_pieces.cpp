@@ -9,18 +9,18 @@ Pawn::Pawn() : Piece(1, "Pawn") {}
 Pawn::~Pawn() {}
 
 bool Pawn::normal_move_no_context(const position &start_position,
-                                  const position &end_position) const {
+                                  const position &end_position) {
   return Piece::vertical_check(start_position, end_position);
 }
 
 bool Pawn::attack_move_no_context(const position &start_position,
-                                  const position &end_position) const {
+                                  const position &end_position) {
   return Piece::diagonal_check(start_position, end_position);
 }
 
 // todo : implement first move_double_push
 bool Pawn::special_move_no_context(position const &start_position,
-                                   position const &end_position) const {
+                                   position const &end_position) {
   return false;
 }
 // Pawn Piece end

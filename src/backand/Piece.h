@@ -1,6 +1,7 @@
 #ifndef _GENERIC_PIECE_
 #define _GENERIC_PIECE_
 
+#include <iostream>
 #include <string>
 namespace backand {
 
@@ -19,11 +20,20 @@ class Piece {
   ~Piece();
   std::string *piece_name() const;
   virtual bool normal_move_no_context(const position &start_position,
-                                      const position &end_position);
+                                      const position &end_position) {
+    std::cout << "default operation " << std::endl;
+    return false;
+  }
   virtual bool attack_move_no_context(const position &start_position,
-                                      const position &end_position);
+                                      const position &end_position) {
+    std::cout << "default operation " << std::endl;
+    return false;
+  }
   virtual bool special_move_no_context(const position &start_position,
-                                       const position &end_position);
+                                       const position &end_position) {
+    std::cout << "default operation " << std::endl;
+    return false;
+  }
 
  protected:
   bool vertical_check(const position &start_position,
@@ -43,13 +53,12 @@ class Pawn : public Piece {
   Pawn();
   ~Pawn();
   bool normal_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
   bool attack_move_no_context(const position &start_position,
-                              const position &end_position) const;
+                              const position &end_position);
   bool special_move_no_context(position const &start_position,
-                               position const &end_position) const;
+                               position const &end_position);
 };
-
 class Knight : public Piece {
  public:
   Knight();
@@ -72,8 +81,6 @@ class Bishop : public Piece {
                               const position &end_position) const;
   bool attack_move_no_context(const position &start_position,
                               const position &end_position) const;
-  bool special_move_no_context(position const &start_position,
-                               position const &end_position) const;
 };
 
 class Rook : public Piece {
@@ -84,8 +91,6 @@ class Rook : public Piece {
                               const position &end_position) const;
   bool attack_move_no_context(const position &start_position,
                               const position &end_position) const;
-  bool special_move_no_context(position const &start_position,
-                               position const &end_position) const;
 };
 
 class Queen : public Piece {
@@ -96,8 +101,6 @@ class Queen : public Piece {
                               const position &end_position) const;
   bool attack_move_no_context(const position &start_position,
                               const position &end_position) const;
-  bool special_move_no_context(position const &start_position,
-                               position const &end_position) const;
 };
 
 class King : public Piece {

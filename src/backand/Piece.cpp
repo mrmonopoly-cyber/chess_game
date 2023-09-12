@@ -1,6 +1,7 @@
 #include "Piece.h"
 
 #include <cstdlib>
+#include <iostream>
 #include <string>
 
 using namespace backand;
@@ -42,15 +43,18 @@ bool Piece::diagonal_check(const position &start_position,
 
   return false;
 }
-bool Piece::normal_move_no_context(const position &start_position,
-                                   const position &end_position) {
-  return false;
-}
-bool Piece::attack_move_no_context(const position &start_position,
-                                   const position &end_position) {
-  return false;
-}
-bool Piece::special_move_no_context(const position &start_position,
-                                    const position &end_position) {
-  return false;
-}
+// bool Piece::normal_move_no_context(const position &start_position,
+//                                    const position &end_position) {
+//   std::cout << "default operation " << std::endl;
+//   return false;
+// }
+// bool Piece::attack_move_no_context(const position &start_position,
+//                                    const position &end_position) {
+//   std::cout << "default operation " << std::endl;
+//   return false;
+// }
+// bool Piece::special_move_no_context(const position &start_position,
+//                                     const position &end_position) {
+//   std::cout << "default operation " << std::endl;
+//   return false;
+// }
