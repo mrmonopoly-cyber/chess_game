@@ -3,12 +3,16 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace backand;
 
 Piece::Piece(const char *const name) : range(0), name(name) {}
 Piece::Piece(const int range, const char *const name)
     : range(range), name(name) {}
+
+Piece::Piece(const int range, const char *const name, bool jump_pieces)
+    : range(range), name(name), jump_pieces(jump_pieces){};
 Piece::~Piece(){};
 std::string *Piece::piece_name() const { return new std::string(this->name); }
 
@@ -43,6 +47,7 @@ bool Piece::diagonal_check(const position &start_position,
 
   return false;
 }
+
 bool Piece::normal_move_no_context(const position &start_position,
                                    const position &end_position) {
   std::cout << "default operation " << std::endl;
