@@ -5,7 +5,6 @@
 #include <iostream>
 #include <memory>
 #include <ostream>
-#include <vector>
 
 #include "Piece.h"
 
@@ -77,6 +76,20 @@ Game::~Game() {
   delete[] this->board;
 }
 
+bool Game::check_free_position(std::vector<struct position> position_list) {
+  unsigned int index_board;
+  struct board_cell *cell_to_check;
+
+  for (struct position &p : position_list) {
+    index_board = position_in_board(p);
+    cell_to_check = &this->board[index_board];
+    if (!cell_to_check->piece_type.empty()) {
+      return false;
+    }
+  }
+  return true;
+}
+
 void Game::try_move_piece(position &start_position, position &end_position) {
   const unsigned int start_index_in_board = position_in_board(start_position);
   const unsigned int end_index_in_board = position_in_board(end_position);
@@ -84,18 +97,27 @@ void Game::try_move_piece(position &start_position, position &end_position) {
   board_cell &end_cell = board[end_index_in_board];
   std::shared_ptr<Piece> start_piece;
   std::shared_ptr<Piece> end_piece;
+  std::vector<struct position> position_to_be_free;
 
   start_piece = find_piece_type(start_cell.piece_type);
   if (start_piece) {
     end_piece = find_piece_type(end_cell.piece_type);
     if (end_piece) {
+      position_to_be_free = start_piece->context_to_check_normal_move(
+          start_position, end_position);
+
       if (start_cell.color != end_cell.color &&
-          start_piece->attack_move_no_context(start_position, end_position)) {
+          start_piece->attack_move_no_context(start_position, end_position) &&
+          check_free_position(position_to_be_free)) {
         move_piece_in_board(start_cell, end_cell);
       }
     } else if (start_piece->normal_move_no_context(start_position,
                                                    end_position)) {
-      move_piece_in_board(start_cell, end_cell);
+      position_to_be_free = start_piece->context_to_check_normal_move(
+          start_position, end_position);
+      if (check_free_position(position_to_be_free)) {
+        move_piece_in_board(start_cell, end_cell);
+      }
     }
   }
 }
@@ -148,9 +170,11 @@ unsigned int Game::position_in_board(position &start_position) const {
 
 int main(int argc, char *argv[]) {
   Game game;
-  struct position start = {1, 0};
-  struct position end = {1, 1};
-  game.try_move_piece(start, end);
+  // board is divided in coloms
+  struct position moves[] = {{1, 1}, {1, 2}, {2, 0}, {0, 2}};
+
+  // game.try_move_piece(moves[0], moves[1]);
+  game.try_move_piece(moves[2], moves[3]);
   game.print_board();
   return 0;
 }

@@ -61,21 +61,21 @@ Bishop::~Bishop() {}
 
 const std::vector<struct position> Bishop::context_to_check_normal_move(
     position &start_position, position &end_position) {
-  unsigned int diff_x = start_position.x - end_position.x;
-  unsigned int diff_y = start_position.y - end_position.y;
+  int diff_x = end_position.x - start_position.x;
+  int diff_y = end_position.y - start_position.y;
   int increment_x = -1;
   int increment_y = -1;
-  std::vector<struct position> res(diff_x - 1);
+  std::vector<struct position> res(abs(diff_x) - 1);
 
-  if (diff_x) {
+  if (diff_x > 0) {
     increment_x = 1;
   }
-  if (diff_y) {
+  if (diff_y > 0) {
     increment_y = 1;
   }
-  for (unsigned int i = 1; i < diff_x; i++) {
-    res[i - 1].x = start_position.x + (increment_x * i);
-    res[i - 1].y = start_position.y + (increment_y * i);
+  for (unsigned int i = 0; i < abs(diff_x) - 1; i++) {
+    res[i].x = start_position.x + (increment_x * (i + 1));
+    res[i].y = start_position.y + (increment_y * (i + 1));
   }
   return res;
 }

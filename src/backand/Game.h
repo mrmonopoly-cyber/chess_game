@@ -30,6 +30,7 @@ class Game {
   struct board_cell *const board;
   // Game_log moves_history;
 
+  bool check_free_position(std::vector<struct position> position_list);
   void move_piece_in_board(struct board_cell &start, struct board_cell &end);
   void put_piece_on_board(const std::string piece_name,
                           const Piece::PIECE_COLOR color,
@@ -37,6 +38,5 @@ class Game {
   unsigned int position_in_board(position &start_position) const;
   std::shared_ptr<Piece> find_piece_type(const std::string &type);
 };
-
 }  // namespace backand
 #endif  // !_BOARD_GAME_

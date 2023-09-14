@@ -2,6 +2,7 @@
 #define _GENERIC_PIECE_
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 namespace backand {
@@ -48,8 +49,10 @@ class Pawn : public Piece {
  public:
   Pawn();
   ~Pawn();
+
   const std::vector<struct position> context_to_check_normal_move(
       position &start_position, position &end_position) override;
+
   bool normal_move_no_context(const position &start_position,
                               const position &end_position) override;
   bool attack_move_no_context(const position &start_position,
@@ -79,6 +82,7 @@ class Bishop : public Piece {
   ~Bishop();
   const std::vector<struct position> context_to_check_normal_move(
       position &start_position, position &end_position) override;
+
   bool normal_move_no_context(const position &start_position,
                               const position &end_position) override;
   bool attack_move_no_context(const position &start_position,
