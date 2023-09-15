@@ -5,9 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <ostream>
-
 #include "Piece.h"
-
 using namespace backand;
 // public
 Game::Game()
@@ -43,7 +41,7 @@ Game::Game()
   put_piece_on_board(*pieces_properties[1]->piece_name(), Piece::BLACK, 6);
   // WHITE Knight
   put_piece_on_board(*pieces_properties[1]->piece_name(), Piece::BLACK,
-                     (7 * default_size) + 1);
+                    (7 * default_size) + 1);
   put_piece_on_board(*pieces_properties[1]->piece_name(), Piece::BLACK,
                      (7 * default_size) + 6);
   // BLACK Bishop
@@ -99,6 +97,7 @@ void Game::try_move_piece(position &start_position, position &end_position) {
   std::shared_ptr<Piece> end_piece;
   std::vector<struct position> position_to_be_free;
 
+  // todo : refactor this shit please
   start_piece = find_piece_type(start_cell.piece_type);
   if (start_piece) {
     end_piece = find_piece_type(end_cell.piece_type);
@@ -171,10 +170,10 @@ unsigned int Game::position_in_board(position &start_position) const {
 int main(int argc, char *argv[]) {
   Game game;
   // board is divided in coloms
-  struct position moves[] = {{1, 1}, {1, 2}, {2, 0}, {0, 2}};
-
-  // game.try_move_piece(moves[0], moves[1]);
+  struct position moves[] = {{0, 1}, {0, 2}, {0, 2}, {0, 3},{0,0},{0,2}};
+  game.try_move_piece(moves[0], moves[1]);
   game.try_move_piece(moves[2], moves[3]);
+  game.try_move_piece(moves[4], moves[5]);
   game.print_board();
   return 0;
 }

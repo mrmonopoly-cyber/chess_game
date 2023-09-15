@@ -4,6 +4,17 @@
 #include "Piece.h"
 
 using namespace backand;
+//common private functions
+static std::vector<struct position> position_array(const int diff_x, const unsigned int increment_x, 
+        const unsigned int increment_y,const struct position &position) {
+    std::vector<struct position> res(abs(diff_x)-1);
+    for (unsigned int i = 0; i < abs(diff_x) - 1; i++) {
+        res[i].x = position.x + (increment_x * (i + 1));
+        res[i].y = position.y + (increment_y * (i + 1));
+    }
+    return res;
+}
+
 
 // Pawn Piece
 Pawn::Pawn() : Piece(1, "Pawn") {}
@@ -65,7 +76,6 @@ const std::vector<struct position> Bishop::context_to_check_normal_move(
   int diff_y = end_position.y - start_position.y;
   int increment_x = -1;
   int increment_y = -1;
-  std::vector<struct position> res(abs(diff_x) - 1);
 
   if (diff_x > 0) {
     increment_x = 1;
@@ -73,11 +83,7 @@ const std::vector<struct position> Bishop::context_to_check_normal_move(
   if (diff_y > 0) {
     increment_y = 1;
   }
-  for (unsigned int i = 0; i < abs(diff_x) - 1; i++) {
-    res[i].x = start_position.x + (increment_x * (i + 1));
-    res[i].y = start_position.y + (increment_y * (i + 1));
-  }
-  return res;
+  return position_array(diff_x, increment_x, increment_y, start_position);
 }
 
 bool Bishop::normal_move_no_context(const position &start_position,
@@ -95,7 +101,25 @@ Rook::Rook() : Piece("Rook") {}
 Rook::~Rook() {}
 
 const std::vector<struct position> Rook::context_to_check_normal_move(
-    position &start_position, position &end_position) {}
+    position &start_position, position &end_position) {
+  int diff_x = end_position.x - start_position.x;
+  int diff_y = end_position.y - start_position.y;
+  int diff_to_use;
+  int increment_x = -1;
+  int increment_y = -1;
+
+  if (diff_x > 0) {
+    increment_x = 1;
+    increment_y = 0;
+    diff_to_use=diff_x;
+  }
+  if (diff_y > 0) {
+    increment_x = 0;
+    increment_y = 1;
+    diff_to_use=diff_y;
+  }
+  return position_array(diff_to_use, increment_x, increment_y, start_position);
+}
 
 bool Rook::normal_move_no_context(const position &start_position,
                                   const position &end_position) {
