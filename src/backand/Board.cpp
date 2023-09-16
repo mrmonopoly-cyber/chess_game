@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Board.h"
 
 #include <algorithm>
 #include <cstddef>
@@ -9,7 +9,7 @@
 #include "Piece.h"
 using namespace backand;
 // public
-Game::Game()
+Board::Board()
     : side_length(default_size),
       board(new board_cell[default_size * default_size]) {
   pieces_properties.reserve(6);
@@ -63,19 +63,19 @@ Game::Game()
                      (7 * default_size) + 4);
 }
 
-Game::Game(unsigned int board_size,
+Board::Board(unsigned int board_size,
            const std::vector<std::shared_ptr<Piece>> pieces_properties)
     : board(new board_cell[board_size * board_size]),
       side_length(board_size),
       pieces_properties(pieces_properties) {}
 
-Game::~Game() {
+Board::~Board() {
   this->pieces_properties.clear();
   this->pieces_properties.shrink_to_fit();
   delete[] this->board;
 }
 
-bool Game::check_free_position(std::vector<struct position> position_list) {
+bool Board::check_free_position(std::vector<struct position> position_list) {
   unsigned int index_board;
   struct board_cell *cell_to_check;
 
@@ -89,7 +89,7 @@ bool Game::check_free_position(std::vector<struct position> position_list) {
   return true;
 }
 
-void Game::try_move_piece(position &start_position, position &end_position) {
+void Board::try_move_piece(position &start_position, position &end_position) {
   const unsigned int start_index_in_board = position_in_board(start_position);
   const unsigned int end_index_in_board = position_in_board(end_position);
   board_cell &start_cell = board[start_index_in_board];
@@ -124,7 +124,7 @@ void Game::try_move_piece(position &start_position, position &end_position) {
   position_to_be_free.shrink_to_fit();
 }
 
-void Game::print_board() const {
+void Board::print_board() const {
   unsigned int index_board;
   for (int i = 0; i < this->side_length; i++) {
     for (int j = 0; j < this->side_length; j++) {
@@ -140,20 +140,20 @@ void Game::print_board() const {
   }
 }
 // private
-void Game::move_piece_in_board(struct board_cell &start,
+void Board::move_piece_in_board(struct board_cell &start,
                                struct board_cell &end) {
   end.piece_type = start.piece_type;
   end.color = start.color;
   start.piece_type.clear();
 }
-void Game::put_piece_on_board(const std::string piece_name,
+void Board::put_piece_on_board(const std::string piece_name,
                               const Piece::PIECE_COLOR color,
                               const unsigned int pos) const {
   this->board[pos].piece_type = piece_name;
   this->board[pos].color = color;
 }
 
-std::shared_ptr<Piece> Game::find_piece_type(const std::string &type) {
+std::shared_ptr<Piece> Board::find_piece_type(const std::string &type) {
   if (type.empty()) {
     return nullptr;
   }
@@ -164,14 +164,14 @@ std::shared_ptr<Piece> Game::find_piece_type(const std::string &type) {
   }
   return nullptr;
 }
-unsigned int Game::position_in_board(position &start_position) const {
+unsigned int Board::position_in_board(position &start_position) const {
   unsigned int first_dimension = start_position.y * this->side_length;
   unsigned int second_dimension = start_position.x;
   return first_dimension + second_dimension;
 }
 
 int main(int argc, char *argv[]) {
-  Game game;
+  Board game;
   // board is divided in coloms
   struct position moves[] = {{3, 1}, {3, 2},{2,0},{3,1}, {3, 0}, {3, 1}};
   game.try_move_piece(moves[0], moves[1]);

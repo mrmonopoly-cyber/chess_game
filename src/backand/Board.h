@@ -9,12 +9,12 @@
 
 namespace backand {
 
-class Game {
+class Board {
  public:
-  Game();
-  Game(const unsigned int board_size,
+  Board();
+  Board(const unsigned int board_size,
        const std::vector<std::shared_ptr<Piece>> pieces_properties);
-  ~Game();
+  ~Board();
   void try_move_piece(position &start_position, position &end_position);
   void print_board() const;
 
@@ -28,7 +28,6 @@ class Game {
   std::vector<std::shared_ptr<Piece>> pieces_properties;
   const unsigned int side_length;
   struct board_cell *const board;
-  // Game_log moves_history;
 
   bool check_free_position(std::vector<struct position> position_list);
   void move_piece_in_board(struct board_cell &start, struct board_cell &end);
