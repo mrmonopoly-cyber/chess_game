@@ -6,8 +6,8 @@
 #include <memory>
 #include <ostream>
 #include <vector>
-#include "Piece.h"
 using namespace backand;
+
 // public
 Board::Board()
     : side_length(default_size),
@@ -22,49 +22,50 @@ Board::Board()
 
   // set Pawns
   for (int i = 0; i < default_size; i++) {
-    // BLACK Pawns
-    put_piece_on_board(*pieces_properties[0]->piece_name(), Piece::BLACK,
+    // 1 Pawns
+    put_piece_on_board(*pieces_properties[0]->piece_name(), 1,
                        default_size + i);
-    // WHITE Pawns
-    put_piece_on_board(*pieces_properties[0]->piece_name(), Piece::WHITE,
+    // 0 Pawns
+    put_piece_on_board(*pieces_properties[0]->piece_name(), 0,
                        (6 * default_size) + i);
   }
-  // BLACK Rook
-  put_piece_on_board(*pieces_properties[3]->piece_name(), Piece::BLACK, 0);
-  put_piece_on_board(*pieces_properties[3]->piece_name(), Piece::BLACK, 7);
-  // WHITE Rook
-  put_piece_on_board(*pieces_properties[3]->piece_name(), Piece::WHITE,
+  // 1 Rook
+  put_piece_on_board(*pieces_properties[3]->piece_name(), 1, 0);
+  put_piece_on_board(*pieces_properties[3]->piece_name(), 1, 7);
+  // 0 Rook
+  put_piece_on_board(*pieces_properties[3]->piece_name(), 0,
                      (7 * default_size) + 0);
-  put_piece_on_board(*pieces_properties[3]->piece_name(), Piece::WHITE,
+  put_piece_on_board(*pieces_properties[3]->piece_name(), 0,
                      (7 * default_size) + 7);
-  // BLACK Knight
-  put_piece_on_board(*pieces_properties[1]->piece_name(), Piece::BLACK, 1);
-  put_piece_on_board(*pieces_properties[1]->piece_name(), Piece::BLACK, 6);
-  // WHITE Knight
-  put_piece_on_board(*pieces_properties[1]->piece_name(), Piece::BLACK,
+  // 1 Knight
+  put_piece_on_board(*pieces_properties[1]->piece_name(), 1, 1);
+  put_piece_on_board(*pieces_properties[1]->piece_name(), 1, 6);
+  // 0 Knight
+  put_piece_on_board(*pieces_properties[1]->piece_name(), 1,
                     (7 * default_size) + 1);
-  put_piece_on_board(*pieces_properties[1]->piece_name(), Piece::BLACK,
+  put_piece_on_board(*pieces_properties[1]->piece_name(), 1,
                      (7 * default_size) + 6);
-  // BLACK Bishop
-  put_piece_on_board(*pieces_properties[2]->piece_name(), Piece::BLACK, 2);
-  put_piece_on_board(*pieces_properties[2]->piece_name(), Piece::BLACK, 5);
-  // WHITE Bishop
-  put_piece_on_board(*pieces_properties[2]->piece_name(), Piece::WHITE,
+  // 1 Bishop
+  put_piece_on_board(*pieces_properties[2]->piece_name(), 1, 2);
+  put_piece_on_board(*pieces_properties[2]->piece_name(), 1, 5);
+  // 0 Bishop
+  put_piece_on_board(*pieces_properties[2]->piece_name(), 0,
                      (7 * default_size) + 2);
-  put_piece_on_board(*pieces_properties[2]->piece_name(), Piece::WHITE,
+  put_piece_on_board(*pieces_properties[2]->piece_name(), 0,
                      (7 * default_size) + 5);
-  // BLACK Queen
-  put_piece_on_board(*pieces_properties[4]->piece_name(), Piece::BLACK, 3);
-  put_piece_on_board(*pieces_properties[4]->piece_name(), Piece::WHITE,
+  // 1 Queen
+  put_piece_on_board(*pieces_properties[4]->piece_name(), 1, 3);
+  put_piece_on_board(*pieces_properties[4]->piece_name(), 0,
                      (7 * default_size) + 3);
-  // BLACK King
-  put_piece_on_board(*pieces_properties[5]->piece_name(), Piece::BLACK, 4);
-  put_piece_on_board(*pieces_properties[5]->piece_name(), Piece::WHITE,
+  // 1 King
+  put_piece_on_board(*pieces_properties[5]->piece_name(), 1, 4);
+  put_piece_on_board(*pieces_properties[5]->piece_name(), 0,
                      (7 * default_size) + 4);
 }
 
 Board::Board(unsigned int board_size,
-           const std::vector<std::shared_ptr<Piece>> pieces_properties)
+           const std::vector<std::shared_ptr<Piece>> pieces_properties,
+           const std::vector<Player> player_list)
     : board(new board_cell[board_size * board_size]),
       side_length(board_size),
       pieces_properties(pieces_properties) {}
@@ -106,7 +107,7 @@ void Board::try_move_piece(position &start_position, position &end_position) {
       position_to_be_free = *start_piece->context_to_check_normal_move(
           start_position, end_position);
 
-      if (start_cell.color != end_cell.color &&
+      if (start_cell.player != end_cell.player &&
           start_piece->attack_move_no_context(start_position, end_position) &&
           check_free_position(position_to_be_free)) {
         move_piece_in_board(start_cell, end_cell);
@@ -129,7 +130,7 @@ void Board::print_board() const {
   for (int i = 0; i < this->side_length; i++) {
     for (int j = 0; j < this->side_length; j++) {
       index_board = (i * this->side_length) + j;
-      if (this->board[index_board].color == Piece::BLACK) {
+      if (this->board[index_board].player == 1) {
         std::cout << "B";
       } else {
         std::cout << "W";
@@ -143,14 +144,16 @@ void Board::print_board() const {
 void Board::move_piece_in_board(struct board_cell &start,
                                struct board_cell &end) {
   end.piece_type = start.piece_type;
-  end.color = start.color;
+  end.player = start.player;
   start.piece_type.clear();
+  start.never_moved = false;
+  end.never_moved = false;
 }
 void Board::put_piece_on_board(const std::string piece_name,
-                              const Piece::PIECE_COLOR color,
+                              const unsigned int player,
                               const unsigned int pos) const {
   this->board[pos].piece_type = piece_name;
-  this->board[pos].color = color;
+  this->board[pos].player = player;
 }
 
 std::shared_ptr<Piece> Board::find_piece_type(const std::string &type) {
@@ -170,13 +173,4 @@ unsigned int Board::position_in_board(position &start_position) const {
   return first_dimension + second_dimension;
 }
 
-int main(int argc, char *argv[]) {
-  Board game;
-  // board is divided in coloms
-  struct position moves[] = {{3, 1}, {3, 2},{2,0},{3,1}, {3, 0}, {3, 1}};
-  game.try_move_piece(moves[0], moves[1]);
-  // game.try_move_piece(moves[2], moves[3]);
-  game.try_move_piece(moves[4], moves[5]);
-  game.print_board();
-  return 0;
-}
+

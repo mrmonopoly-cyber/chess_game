@@ -1,11 +1,11 @@
-#ifndef _BOARD_GAME_
-#define _BOARD_GAME_
-
+#pragma one
 #include <memory>
 #include <string>
 #include <vector>
 
+#include "Player.h"
 #include "Piece.h"
+
 
 namespace backand {
 
@@ -13,7 +13,8 @@ class Board {
  public:
   Board();
   Board(const unsigned int board_size,
-       const std::vector<std::shared_ptr<Piece>> pieces_properties);
+       const std::vector<std::shared_ptr<Piece>> pieces_properties,
+       const std::vector<Player> player_list);
   ~Board();
   void try_move_piece(position &start_position, position &end_position);
   void print_board() const;
@@ -21,7 +22,8 @@ class Board {
  private:
   struct board_cell {
     std::string piece_type;
-    Piece::PIECE_COLOR color;
+    unsigned int player;
+    bool never_moved = true;
   };
   static const unsigned int default_size = 8;
 
@@ -32,10 +34,9 @@ class Board {
   bool check_free_position(std::vector<struct position> position_list);
   void move_piece_in_board(struct board_cell &start, struct board_cell &end);
   void put_piece_on_board(const std::string piece_name,
-                          const Piece::PIECE_COLOR color,
+                          const unsigned int color,
                           const unsigned int pos) const;
   unsigned int position_in_board(position &start_position) const;
   std::shared_ptr<Piece> find_piece_type(const std::string &type);
 };
 }  // namespace backand
-#endif  // !_BOARD_GAME_

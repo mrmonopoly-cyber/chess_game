@@ -1,16 +1,17 @@
-#ifndef _GENERIC_PIECE_
-#define _GENERIC_PIECE_
-
+#ifndef _PIECES_
+#define _PIECES_
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
+
 namespace backand {
 
 struct position {
   int x;
   int y;
 };
+
 
 class Piece {
  public:
@@ -128,5 +129,4 @@ class King : public Piece {
 };
 
 }  // namespace backand
-
-#endif  // !_GENERIC_PIECE_
+#endif //!_PIECES_
