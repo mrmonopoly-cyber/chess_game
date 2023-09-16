@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <vector>
 
-Game::Game(): players(std::vector<Player>(2)),current_player_turn(0){
+Game::Game(): players(std::vector<Player>(0)),current_player_turn(0){
    this->players.emplace_back(Player("White"));
    this->players.emplace_back(Player("Black"));
 }
