@@ -3,11 +3,11 @@
 #include <string>
 class Player{
     public:
-        const unsigned int player_name()const;
-        Player() = delete;
+        Player();
         Player(const std::string name);
+        const unsigned int player_name()const;
     private:
-        const std::string name;
+        std::string name;
         const unsigned int score;
 };
 #endif //!_PLAYER_

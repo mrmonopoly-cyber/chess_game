@@ -90,7 +90,8 @@ bool Board::check_free_position(std::vector<struct position> position_list) {
   return true;
 }
 
-void Board::try_move_piece(position &start_position, position &end_position) {
+bool Board::try_move_piece(position &start_position, position &end_position,
+        const unsigned int player) {
   const unsigned int start_index_in_board = position_in_board(start_position);
   const unsigned int end_index_in_board = position_in_board(end_position);
   board_cell &start_cell = board[start_index_in_board];
@@ -99,8 +100,13 @@ void Board::try_move_piece(position &start_position, position &end_position) {
   std::shared_ptr<Piece> end_piece;
   std::vector<struct position> position_to_be_free;
 
+  if(start_cell.player!=player){
+      return false;
+  }
+
   // todo : refactor this shit please
   start_piece = find_piece_type(start_cell.piece_type);
+  
   if (start_piece) {
     end_piece = find_piece_type(end_cell.piece_type);
     if (end_piece) {
@@ -123,6 +129,7 @@ void Board::try_move_piece(position &start_position, position &end_position) {
   }
   position_to_be_free.clear();
   position_to_be_free.shrink_to_fit();
+  return true;
 }
 
 void Board::print_board() const {

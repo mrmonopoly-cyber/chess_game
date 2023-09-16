@@ -14,17 +14,6 @@ class Game{
     private:
         std::vector<Player> players;
         backand::Board game_board;
+        unsigned int current_player_turn;
 
 };
-
-
-int main(int argc, char *argv[]) {
-    Game game;
-    // board is divided in coloms
-    struct position moves[] = {{0, 1}, {0, 2},{0,2},{1,3}, {0, 3}, {1, 3}};
-    game.move_piece(moves[0], moves[1]);
-    game.move_piece(moves[2], moves[3]);
-    game.move_piece(moves[4], moves[5]);
-    game.game_status();
-    return 0;
-}
