@@ -6,7 +6,6 @@
 #include <vector>
 
 using namespace backand;
-
 Piece::Piece(const char *const name) : range(0), name(name) {}
 Piece::Piece(const int range, const char *const name)
     : range(range), name(name) {}
@@ -47,6 +46,14 @@ bool Piece::diagonal_check(const position &start_position,
 
   return false;
 }
+std::vector<struct position> *context_to_check_normal_move(
+      position &start_position, position &end_position){
+    return nullptr;
+}
+std::vector<struct position> *context_to_check_special_move(
+          const position &start_position,const position &end_position){
+    return nullptr;
+}
 
 bool Piece::normal_move_no_context(const position &start_position,
                                    const position &end_position) {
@@ -59,7 +66,8 @@ bool Piece::attack_move_no_context(const position &start_position,
   return false;
 }
 bool Piece::special_move_no_context(const position &start_position,
-                                    const position &end_position) {
+                                    const position &end_position,
+                                    const std::vector<struct position> context) {
   std::cout << "default operation " << std::endl;
   return false;
 }

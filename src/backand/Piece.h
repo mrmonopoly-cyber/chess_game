@@ -24,13 +24,16 @@ class Piece {
   ~Piece();
   std::string *piece_name() const;
   virtual std::vector<struct position> *context_to_check_normal_move(
-      position &start_position, position &end_position) = 0;
+      position &start_position, position &end_position);
+  virtual std::vector<struct position> *context_to_check_special_move(
+          const position &start_position,const position &end_position);
   virtual bool normal_move_no_context(const position &start_position,
                                       const position &end_position);
   virtual bool attack_move_no_context(const position &start_position,
                                       const position &end_position);
   virtual bool special_move_no_context(const position &start_position,
-                                       const position &end_position);
+                                       const position &end_position,
+                                       const std::vector<struct position> context);
 
  protected:
   bool vertical_check(const position &start_position,
@@ -53,13 +56,16 @@ class Pawn : public Piece {
 
   std::vector<struct position> *context_to_check_normal_move(
       position &start_position, position &end_position) override;
+  std::vector<struct position> *context_to_check_special_move(
+          const position &start_position,const position &end_position)override;
 
   bool normal_move_no_context(const position &start_position,
                               const position &end_position) override;
   bool attack_move_no_context(const position &start_position,
                               const position &end_position) override;
   bool special_move_no_context(position const &start_position,
-                               position const &end_position) override;
+                               position const &end_position,
+                               const std::vector<struct position> context) override;
 };
 class Knight : public Piece {
  public:
@@ -125,7 +131,8 @@ class King : public Piece {
   bool attack_move_no_context(const position &start_position,
                               const position &end_position) override;
   bool special_move_no_context(position const &start_position,
-                               position const &end_position) override;
+                               position const &end_position,
+                               const std::vector<struct position> context) override;
 };
 
 }  // namespace backand

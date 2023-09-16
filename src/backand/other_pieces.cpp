@@ -25,6 +25,13 @@ std::vector<struct position>* Pawn::context_to_check_normal_move(
     return new std::vector<struct position>(0);
 }
 
+std::vector<struct position>* Pawn::context_to_check_special_move(
+        const position &start_position, const position &end_position) {
+    std::vector<struct position>* res = new std::vector<struct position>(3);
+    
+
+    return res;
+}
 bool Pawn::normal_move_no_context(const position &start_position,
         const position &end_position) {
     return Piece::vertical_check(start_position, end_position);
@@ -37,7 +44,7 @@ bool Pawn::attack_move_no_context(const position &start_position,
 
 // todo : implement first move_double_push
 bool Pawn::special_move_no_context(position const &start_position,
-        position const &end_position) {
+        position const &end_position, const std::vector<struct position> context) {
     return false;
 }
 // Pawn Piece end
@@ -200,7 +207,7 @@ bool King::attack_move_no_context(const position &start_position,
 
 // todo : implement castle
 bool King::special_move_no_context(position const &start_position,
-        position const &end_position) {
+        position const &end_position, const std::vector<struct position> context) {
     return false;
 }
 // King Piece end
