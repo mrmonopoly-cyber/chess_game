@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <ostream>
+#include <vector>
 #include "Piece.h"
 using namespace backand;
 // public
@@ -102,7 +103,7 @@ void Game::try_move_piece(position &start_position, position &end_position) {
   if (start_piece) {
     end_piece = find_piece_type(end_cell.piece_type);
     if (end_piece) {
-      position_to_be_free = start_piece->context_to_check_normal_move(
+      position_to_be_free = *start_piece->context_to_check_normal_move(
           start_position, end_position);
 
       if (start_cell.color != end_cell.color &&
@@ -112,13 +113,15 @@ void Game::try_move_piece(position &start_position, position &end_position) {
       }
     } else if (start_piece->normal_move_no_context(start_position,
                                                    end_position)) {
-      position_to_be_free = start_piece->context_to_check_normal_move(
+      position_to_be_free = *start_piece->context_to_check_normal_move(
           start_position, end_position);
       if (check_free_position(position_to_be_free)) {
         move_piece_in_board(start_cell, end_cell);
       }
     }
   }
+  position_to_be_free.clear();
+  position_to_be_free.shrink_to_fit();
 }
 
 void Game::print_board() const {
@@ -170,9 +173,9 @@ unsigned int Game::position_in_board(position &start_position) const {
 int main(int argc, char *argv[]) {
   Game game;
   // board is divided in coloms
-  struct position moves[] = {{0, 1}, {0, 2}, {0, 2}, {0, 3},{0,0},{0,2}};
+  struct position moves[] = {{3, 1}, {3, 2},{2,0},{3,1}, {3, 0}, {3, 1}};
   game.try_move_piece(moves[0], moves[1]);
-  game.try_move_piece(moves[2], moves[3]);
+  // game.try_move_piece(moves[2], moves[3]);
   game.try_move_piece(moves[4], moves[5]);
   game.print_board();
   return 0;

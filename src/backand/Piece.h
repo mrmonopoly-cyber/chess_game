@@ -22,7 +22,7 @@ class Piece {
   Piece(const int range, const char *const name, bool jump_pieces);
   ~Piece();
   std::string *piece_name() const;
-  virtual const std::vector<struct position> context_to_check_normal_move(
+  virtual std::vector<struct position> *context_to_check_normal_move(
       position &start_position, position &end_position) = 0;
   virtual bool normal_move_no_context(const position &start_position,
                                       const position &end_position);
@@ -50,7 +50,7 @@ class Pawn : public Piece {
   Pawn();
   ~Pawn();
 
-  const std::vector<struct position> context_to_check_normal_move(
+  std::vector<struct position> *context_to_check_normal_move(
       position &start_position, position &end_position) override;
 
   bool normal_move_no_context(const position &start_position,
@@ -64,7 +64,7 @@ class Knight : public Piece {
  public:
   Knight();
   ~Knight();
-  const std::vector<struct position> context_to_check_normal_move(
+  std::vector<struct position> *context_to_check_normal_move(
       position &start_position, position &end_position) override;
   bool normal_move_no_context(const position &start_position,
                               const position &end_position) override;
@@ -80,7 +80,7 @@ class Bishop : public Piece {
  public:
   Bishop();
   ~Bishop();
-  const std::vector<struct position> context_to_check_normal_move(
+  std::vector<struct position> *context_to_check_normal_move(
       position &start_position, position &end_position) override;
 
   bool normal_move_no_context(const position &start_position,
@@ -93,7 +93,7 @@ class Rook : public Piece {
  public:
   Rook();
   ~Rook();
-  const std::vector<struct position> context_to_check_normal_move(
+  std::vector<struct position> *context_to_check_normal_move(
       position &start_position, position &end_position) override;
   bool normal_move_no_context(const position &start_position,
                               const position &end_position) override;
@@ -105,7 +105,7 @@ class Queen : public Piece {
  public:
   Queen();
   ~Queen();
-  const std::vector<struct position> context_to_check_normal_move(
+  std::vector<struct position> *context_to_check_normal_move(
       position &start_position, position &end_position) override;
   bool normal_move_no_context(const position &start_position,
                               const position &end_position) override;
@@ -117,7 +117,7 @@ class King : public Piece {
  public:
   King();
   ~King();
-  const std::vector<struct position> context_to_check_normal_move(
+  std::vector<struct position> *context_to_check_normal_move(
       position &start_position, position &end_position) override;
   bool normal_move_no_context(const position &start_position,
                               const position &end_position) override;
