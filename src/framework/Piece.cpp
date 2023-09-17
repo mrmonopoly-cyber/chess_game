@@ -1,7 +1,7 @@
 #include "Piece.h"
 #include <cstdlib>
 
-using namespace backand;
+using namespace framework;
 
 //public
 //constructor and deconstructor
@@ -31,7 +31,7 @@ std::vector<struct position> * Piece::context_to_check(
     return nullptr;
 }
 
-bool Piece::valid_move(const struct bacbackand::board_cell * context_array,
+bool Piece::valid_move(const struct framework::Board_cell * context_array,
         const unsigned int size)const
 {
     return false;
@@ -70,5 +70,3 @@ bool Piece::diagonal_check(const position &start_position,
     }
     return false;
 }
-
-

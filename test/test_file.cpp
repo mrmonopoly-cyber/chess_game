@@ -1,14 +1,10 @@
-#include "Game.h"
+#include "Board.h"
 
-
+using namespace framework;
 
 int main(int argc, char *argv[]) {
-    Game game;
-    // board is divided in coloms
-    struct position moves[] = {{1,6},{1,5},{0,1},{0,2},{0,6},{0,5}};
-    game.move_piece(moves[0], moves[1]);
-    game.move_piece(moves[2], moves[3]);
-    game.move_piece(moves[4], moves[5]);
-    game.game_status();
+
+    Board<8, 8, 6, 2> chess_board();
+
     return 0;
 }

@@ -5,7 +5,7 @@
 
 #include "Board_cell.h"
 
-namespace backand {
+namespace framework {
     class Piece {
         public:
 
@@ -18,7 +18,7 @@ namespace backand {
 
             virtual std::vector<struct position> *context_to_check(
                     position &start_position, position &end_position)const;
-            virtual bool valid_move(const struct bacbackand::board_cell * context_array,
+            virtual bool valid_move(const struct framework::Board_cell * context_array,
                     const unsigned int size)const;
     
         protected:
