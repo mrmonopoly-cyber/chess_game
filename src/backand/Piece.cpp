@@ -1,73 +1,74 @@
 #include "Piece.h"
-
 #include <cstdlib>
-#include <iostream>
-#include <string>
-#include <vector>
 
 using namespace backand;
-Piece::Piece(const char *const name) : range(0), name(name) {}
-Piece::Piece(const int range, const char *const name)
-    : range(range), name(name) {}
 
-Piece::Piece(const int range, const char *const name, bool jump_pieces)
-    : range(range), name(name), jump_pieces(jump_pieces){};
-Piece::~Piece(){};
-std::string *Piece::piece_name() const { return new std::string(this->name); }
+//public
+//constructor and deconstructor
+Piece::Piece(const char *const name)
+    :name(name)
+{
+    //ok to be empty
+}
 
+Piece::Piece(const unsigned int range, const std::string name)
+    : range(range), name(name)
+{
+    //ok to be empty
+}
+
+
+Piece::Piece(const unsigned int range, const std::string name, const bool jump_pieces)
+    : range(range), name(name), jump_pieces(jump_pieces)
+{
+    //ok to be empty
+}
+
+//functions
+std::vector<struct position> * Piece::context_to_check(
+        position &start_position, position &end_position)const
+{
+    return nullptr;
+}
+
+bool Piece::valid_move(const struct bacbackand::board_cell * context_array,
+        const unsigned int size)const
+{
+    return false;
+}
+
+//protected
 bool Piece::vertical_check(const position &start_position,
-                           const position &end_position) const {
-  unsigned int diff_x = abs(start_position.x - end_position.x);
-  unsigned int diff_y = abs(start_position.y - end_position.y);
-  if (!diff_x) {
-    return diff_y - (this->range - 1);
-  }
-  return false;
+        const position &end_position) const
+{
+    const unsigned int diff_x = end_position.x - start_position.x;
+    const unsigned int diff_y = end_position.y - start_position.y;
+    if(!diff_x && this->range >= diff_y){
+        return true;
+    }
+    return false;
 }
-
 bool Piece::horizontal_check(const position &start_position,
-                             const position &end_position) const {
-  unsigned int diff_x = abs(start_position.x - end_position.x);
-  unsigned int diff_y = abs(start_position.y - end_position.y);
-  if (!diff_y) {
-    return diff_x - (this->range - 1);
-  }
-  return false;
-}
+        const position &end_position) const
+{
+    const unsigned int diff_x = end_position.x - start_position.x;
+    const unsigned int diff_y = end_position.y - start_position.y;
+     if(!diff_y  && this->range >= diff_x){
+        return true;
+    }
+    return false;
 
+}
 bool Piece::diagonal_check(const position &start_position,
-                           const position &end_position) const {
-  unsigned int diff_x = abs(start_position.x - end_position.x);
-  unsigned int diff_y = abs(start_position.y - end_position.y);
+        const position &end_position) const
+{
+    const unsigned int diff_x = end_position.x - start_position.x;
+    const unsigned int diff_y = end_position.y - start_position.y;
 
-  if (diff_x == diff_y) {
-    return diff_y - (this->range - 1);
-  }
-
-  return false;
-}
-std::vector<struct position> *context_to_check_normal_move(
-      position &start_position, position &end_position){
-    return nullptr;
-}
-std::vector<struct position> *context_to_check_special_move(
-          const position &start_position,const position &end_position){
-    return nullptr;
+    if(diff_x == diff_y && this->range>=diff_x){
+        return true;
+    }
+    return false;
 }
 
-bool Piece::normal_move_no_context(const position &start_position,
-                                   const position &end_position) {
-  std::cout << "default operation " << std::endl;
-  return false;
-}
-bool Piece::attack_move_no_context(const position &start_position,
-                                   const position &end_position) {
-  std::cout << "default operation " << std::endl;
-  return false;
-}
-bool Piece::special_move_no_context(const position &start_position,
-                                    const position &end_position,
-                                    const std::vector<struct position> context) {
-  std::cout << "default operation " << std::endl;
-  return false;
-}
+
