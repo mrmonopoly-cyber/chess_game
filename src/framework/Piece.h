@@ -8,7 +8,6 @@
 namespace framework {
     class Piece {
         public:
-
             Piece() = delete;
             Piece(const char *const name);
             Piece(const unsigned int range, const std::string name);
@@ -18,7 +17,7 @@ namespace framework {
 
             virtual std::vector<struct position> *context_to_check(
                     position &start_position, position &end_position)const;
-            virtual bool valid_move(const struct framework::Board_cell * context_array,
+            virtual bool valid_move(const struct framework::Board_cell ** context_array,
                     const unsigned int size)const;
     
         protected:

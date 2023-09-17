@@ -14,6 +14,9 @@ struct position{
         public:
             Board_cell();
             void reset();
+            unsigned int get_owner()const;
+            std::string &get_type();
+            void overwrite(Board_cell &cell);
             friend std::ostream& operator<<(std::ostream &stream, const framework::Board_cell &board_cell);
         private:
             std::string piece_type = "";
