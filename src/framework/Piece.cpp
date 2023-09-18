@@ -43,20 +43,14 @@ bool Piece::vertical_check(const position &start_position,
 {
     const unsigned int diff_x = end_position.x - start_position.x;
     const unsigned int diff_y = end_position.y - start_position.y;
-    if(!diff_x && this->range >= diff_y){
-        return true;
-    }
-    return false;
+    return !diff_x && this->range >= diff_y;
 }
 bool Piece::horizontal_check(const position &start_position,
         const position &end_position) const
 {
     const unsigned int diff_x = end_position.x - start_position.x;
     const unsigned int diff_y = end_position.y - start_position.y;
-     if(!diff_y  && this->range >= diff_x){
-        return true;
-    }
-    return false;
+    return !diff_y  && this->range >= diff_x;
 
 }
 bool Piece::diagonal_check(const position &start_position,
@@ -64,9 +58,5 @@ bool Piece::diagonal_check(const position &start_position,
 {
     const unsigned int diff_x = end_position.x - start_position.x;
     const unsigned int diff_y = end_position.y - start_position.y;
-
-    if(diff_x == diff_y && this->range>=diff_x){
-        return true;
-    }
-    return false;
+    return diff_x == diff_y && this->range>=diff_x;
 }
