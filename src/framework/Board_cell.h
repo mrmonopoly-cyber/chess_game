@@ -19,6 +19,7 @@ namespace framework{
             unsigned int get_owner()const;
             const std::string &get_type() const;
             void overwrite(Board_cell &cell);
+            void overwrite(const std::string &piece_name, const unsigned int owner);
             friend std::ostream& operator<<(std::ostream &stream, const framework::Board_cell &board_cell);
         private:
             std::string piece_type = "";

@@ -32,7 +32,8 @@ std::vector<struct position> * Piece::context_to_check(
     return nullptr;
 }
 
-bool Piece::valid_move(const struct framework::Board_cell ** context_array,
+bool Piece::valid_move(const struct framework::Board_cell * context_array,
+        std::vector<struct framework::position> *positions,
         const unsigned int size)const
 {
     return false;

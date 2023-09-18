@@ -18,7 +18,7 @@ namespace framework {
             virtual std::vector<struct position> *context_to_check(
                     position &start_position, position &end_position,
                     const unsigned int owner)const;
-            virtual bool valid_move(const struct framework::Board_cell ** context_array,
+            virtual bool valid_move(const struct framework::Board_cell * context_array,
                     std::vector<struct framework::position> *positions,
                     const unsigned int size)const;
     

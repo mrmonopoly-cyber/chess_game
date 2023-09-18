@@ -69,7 +69,7 @@ void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::try_move_piece(position &start_p
     vector_size = context_to_check->size();
 
     //cells to check
-    const struct framework::Board_cell *cell_to_check[vector_size];
+    const struct framework::Board_cell cell_to_check[vector_size];
     for(int i =0; i < vector_size;i++)
     {
         cell_to_check[i] = find_cell(context_to_check[i]);
@@ -102,6 +102,19 @@ void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::reset_board()
 
 template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES, 
     unsigned int N_PLAYER>
+void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::put_piece(const Piece &piece,
+        const position pos,const Player &player)
+{
+    framework::Board_cell &cell = find_cell(pos);
+    int p_index = find_player(player);
+    if(p_index == -1){
+        return;
+    }
+    cell.overwrite(*piece.piece_name(), p_index);
+}
+
+template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES, 
+    unsigned int N_PLAYER>
 void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::print_board() const
 {
     unsigned int cursor = 0;
@@ -116,6 +129,18 @@ void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::print_board() const
 }
 
 //private
+template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES, 
+    unsigned int N_PLAYER>
+int Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::find_player(const Player &player) const
+{
+    for(int i=0;i<players.size();i++){
+        if(players[i].player_name() == player.player_name()){
+            return i;
+        }
+    }
+    return -1;
+}
+
 template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES, 
     unsigned int N_PLAYER>
 Board_cell *Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::find_cell(const struct position &pos)const

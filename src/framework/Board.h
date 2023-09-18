@@ -17,16 +17,17 @@ namespace framework {
             class Board {
                 public:
                     Board() = delete;
-                    Board(const std::array<Piece,PIECE_TYPES> pieces_properties,
-                            const std::array<Player,N_PLAYER> player_list,
+                    Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>(const std::array<Piece,PIECE_TYPES> &pieces_properties,
+                            const std::array<Player,N_PLAYER> &player_list,
                             const std::function<void(void)>default_board_configuration);
-                    Board(const std::array<Piece,PIECE_TYPES> pieces_properties,
-                            const std::array<Player,N_PLAYER> player_list,
+                    Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>(const std::array<Piece,PIECE_TYPES> &pieces_properties,
+                            const std::array<Player,N_PLAYER> &player_list,
                             const std::function<void(void)>default_board_configuration,
                             const std::function<bool(void)>board_peculiar_status_mantained);
 
                     ~Board();
                     void reset_board();
+                    void put_piece(const Piece &piece, const position pos,const Player &player);
                     void try_move_piece(position &start_position, position &end_position,
                             const unsigned int player);
                     void print_board() const;
@@ -34,12 +35,13 @@ namespace framework {
                         return SIDE_V * SIDE_H;
                     }
                 private:
+                    int find_player(const Player &player) const;
                     Board_cell *find_cell(const struct position &pos)const;
                     const Piece *find_piece_category(const std::string &piece_type);
                     Piece *get_piece(const position *pos)const;
 
                     const std::array<const Piece,PIECE_TYPES> pieces_properties;
-                    const std::array<Board_cell,SIDE_H*SIDE_V> board;
+                    std::array<Board_cell,SIDE_H*SIDE_V> board;
                     const std::array<const Player,N_PLAYER> players;
                     const std::function<void(void)>default_board_configuration;
                     const std::function<bool(void)>board_peculiar_status_mantained;
