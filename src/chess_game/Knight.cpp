@@ -1,10 +1,16 @@
 #include <vector>
+#include "Chess_pieces.h"
 #include "include/chess_game/Chess_pieces.h"
 
 using namespace chess;
 using namespace framework;
 
 Knight::Knight():Piece(3,"Knight")
+{
+    //ok to be empty
+}
+
+Knight::~Knight()
 {
     //ok to be empty
 }
@@ -23,7 +29,7 @@ std::vector<struct position> *Knight::context_to_check(
     return nullptr;
 }
 
-bool Knight::valid_move(const struct framework::Board_cell ** context_array,
+bool Knight::valid_move(const struct framework::Board_cell * context_array,
         std::vector<struct framework::position> *positions,
         const unsigned int size)const
 {
@@ -31,8 +37,8 @@ bool Knight::valid_move(const struct framework::Board_cell ** context_array,
         return false;
     }
     
-   const Board_cell *start_cell = &context_array[0][0];
-    const Board_cell *end_cell = &context_array[0][1];
+   const Board_cell *start_cell = &context_array[0];
+    const Board_cell *end_cell = &context_array[1];
     
     return 
         start_cell->get_type() == "Knight" &&

@@ -10,6 +10,11 @@ Pawn::Pawn() : framework::Piece(1,"Pawn")
     //ok to be empty
 }
 
+Pawn::~Pawn() 
+{
+    //ok to be empty
+}
+
 std::vector<struct framework::position> *Pawn::context_to_check(
         framework::position &start_position, framework::position &end_position,
         const unsigned int owner)const

@@ -9,7 +9,7 @@ namespace chess {
     {
         public:
             Pawn();
-            ~Pawn();
+            ~Pawn() override;
             std::vector<struct framework::position> *context_to_check(
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
@@ -24,7 +24,7 @@ namespace chess {
     {
         public:
             Knight();
-            ~Knight();
+            ~Knight() override;
             std::vector<struct framework::position> *context_to_check(
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
@@ -42,7 +42,7 @@ namespace chess {
     {
         public:
             Bishop();
-            ~Bishop();
+            ~Bishop() override;
             std::vector<struct framework::position> *context_to_check(
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
@@ -58,7 +58,7 @@ namespace chess {
     {
         public:
             Rook();
-            ~Rook();
+            ~Rook() override;
             std::vector<struct framework::position> *context_to_check(
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
@@ -74,7 +74,7 @@ namespace chess {
     {
         public:
             Queen();
-            ~Queen();
+            ~Queen() override;
             std::vector<struct framework::position> *context_to_check(
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
@@ -90,7 +90,7 @@ namespace chess {
     {
         public:
             King();
-            ~King();
+            ~King() override;
             std::vector<struct framework::position> *context_to_check(
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
