@@ -25,7 +25,6 @@ std::string &Board_cell::get_type()
     return this->piece_type;
 }
 
-
 void Board_cell::overwrite(Board_cell &cell) 
 {
     this->piece_type = cell.piece_type;
