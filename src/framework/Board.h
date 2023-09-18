@@ -20,6 +20,11 @@ namespace framework {
                     Board(const std::array<Piece,PIECE_TYPES> pieces_properties,
                             const std::array<Player,N_PLAYER> player_list,
                             const std::function<void(void)>default_board_configuration);
+                    Board(const std::array<Piece,PIECE_TYPES> pieces_properties,
+                            const std::array<Player,N_PLAYER> player_list,
+                            const std::function<void(void)>default_board_configuration,
+                            const std::function<bool(void)>board_peculiar_status_mantained);
+
                     ~Board();
                     void reset_board();
                     void try_move_piece(position &start_position, position &end_position,
@@ -32,10 +37,12 @@ namespace framework {
                     Board_cell *find_cell(const struct position &pos)const;
                     const Piece *find_piece_category(const std::string &piece_type);
                     Piece *get_piece(const position *pos)const;
+
                     const std::array<const Piece,PIECE_TYPES> pieces_properties;
-                    const std::array<struct board_cell,SIDE_H*SIDE_V> board;
+                    const std::array<Board_cell,SIDE_H*SIDE_V> board;
                     const std::array<const Player,N_PLAYER> players;
                     const std::function<void(void)>default_board_configuration;
+                    const std::function<bool(void)>board_peculiar_status_mantained;
             };
 }  // namespace framework
 #endif //!_BOARD_GENERAL_

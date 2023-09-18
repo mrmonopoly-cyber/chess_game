@@ -5,6 +5,10 @@
 
 using namespace framework;
 
+static bool default_board_peculiar_status_mantained()
+{
+    return true;
+}
 
 //public
 template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES, 
@@ -12,11 +16,25 @@ template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES,
 Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::Board(const std::array<Piece,PIECE_TYPES> pieces_properties,
         const std::array<Player,N_PLAYER> player_list,
         const std::function<void(void)>default_board_configuration)
-    :pieces_properties(pieces_properties),players(player_list),default_board_configuration(default_board_configuration)
+    :pieces_properties(pieces_properties),players(player_list),
+    default_board_configuration(default_board_configuration),
+    board_peculiar_status_mantained(default_board_peculiar_status_mantained)
 {
     default_board_configuration();
 }
 
+template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES, 
+    unsigned int N_PLAYER>
+Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::Board(const std::array<Piece,PIECE_TYPES> pieces_properties,
+        const std::array<Player,N_PLAYER> player_list,
+        const std::function<void(void)>default_board_configuration,
+        const std::function<bool(void)>board_peculiar_status_mantained)
+    :pieces_properties(pieces_properties),players(player_list),
+    default_board_configuration(default_board_configuration),
+    board_peculiar_status_mantained(board_peculiar_status_mantained)
+{
+    default_board_configuration();
+}
 template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES, 
     unsigned int N_PLAYER>
 void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::try_move_piece(position &start_position, position &end_position,
@@ -25,7 +43,7 @@ void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::try_move_piece(position &start_p
     Board_cell *start_cell;
     Board_cell *dest_cell;
     Piece *start_piece;
-    std::vector<struct position> context_to_check;
+    std::vector<struct position> *context_to_check;
     unsigned int vector_size;
        
     //cells
@@ -45,23 +63,25 @@ void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::try_move_piece(position &start_p
         return;
     }
     
-    context_to_check = *start_piece->context_to_check(start_position,end_position);
-    vector_size = context_to_check.size();
+    context_to_check = start_piece->context_to_check(start_position,end_position);
+    vector_size = context_to_check->size();
     //cells to check
     const struct framework::Board_cell *cell_to_check[vector_size];
     for(int i =0; i < vector_size;i++)
     {
-        start_piece[i] = find_cell(context_to_check[i]);
+        cell_to_check[i] = find_cell(context_to_check[i]);
     }
     
     //checking fase
-    if(start_piece->valid_move(cell_to_check,vector_size))
+    if(start_piece->valid_move(cell_to_check,vector_size) && board_peculiar_status_mantained())
     {
         //moving piece
         dest_cell->overwrite(*start_cell);
         dest_cell->reset();
     }
-    context_to_check.clear();
+    context_to_check->clear();
+    context_to_check->shrink_to_fit();
+    delete context_to_check;
 }
 
 template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES, 
