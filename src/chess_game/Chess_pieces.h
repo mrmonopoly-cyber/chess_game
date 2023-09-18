@@ -11,7 +11,8 @@ namespace chess {
             Pawn();
             ~Pawn();
             std::vector<struct framework::position> *context_to_check(
-                    framework::position &start_position, framework::position &end_position)const override;
+                    framework::position &start_position, framework::position &end_position,
+                    const unsigned int owner)const override;
             bool valid_move(const struct framework::Board_cell ** context_array,
                     const unsigned int size)const override;
 
@@ -24,7 +25,8 @@ namespace chess {
             Knight();
             ~Knight();
             std::vector<struct framework::position> *context_to_check(
-                    framework::position &start_position, framework::position &end_position)const override;
+                    framework::position &start_position, framework::position &end_position,
+                    const unsigned int owner)const override;
             bool valid_move(const struct framework::Board_cell ** context_array,
                     const unsigned int size)const override;
 
@@ -40,7 +42,8 @@ namespace chess {
             Bishop();
             ~Bishop();
             std::vector<struct framework::position> *context_to_check(
-                    framework::position &start_position, framework::position &end_position)const override;
+                    framework::position &start_position, framework::position &end_position,
+                    const unsigned int owner)const override;
             bool valid_move(const struct framework::Board_cell ** context_array,
                     const unsigned int size)const override;
 
@@ -54,7 +57,8 @@ namespace chess {
             Rook();
             ~Rook();
             std::vector<struct framework::position> *context_to_check(
-                    framework::position &start_position, framework::position &end_position)const override;
+                    framework::position &start_position, framework::position &end_position,
+                    const unsigned int owner)const override;
             bool valid_move(const struct framework::Board_cell ** context_array,
                     const unsigned int size)const override;
 
@@ -68,7 +72,8 @@ namespace chess {
             Queen();
             ~Queen();
             std::vector<struct framework::position> *context_to_check(
-                    framework::position &start_position, framework::position &end_position)const override;
+                    framework::position &start_position, framework::position &end_position,
+                    const unsigned int owner)const override;
             bool valid_move(const struct framework::Board_cell ** context_array,
                     const unsigned int size)const override;
 
@@ -82,7 +87,8 @@ namespace chess {
             King();
             ~King();
             std::vector<struct framework::position> *context_to_check(
-                    framework::position &start_position, framework::position &end_position)const override;
+                    framework::position &start_position, framework::position &end_position,
+                    const unsigned int owner)const override;
             bool valid_move(const struct framework::Board_cell ** context_array,
                     const unsigned int size)const override;
 

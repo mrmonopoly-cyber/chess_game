@@ -26,7 +26,8 @@ Piece::Piece(const unsigned int range, const std::string name, const bool jump_p
 
 //functions
 std::vector<struct position> * Piece::context_to_check(
-        position &start_position, position &end_position)const
+        position &start_position, position &end_position,
+        const unsigned int owner)const
 {
     return nullptr;
 }

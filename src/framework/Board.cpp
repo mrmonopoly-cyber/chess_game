@@ -65,7 +65,7 @@ void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::try_move_piece(position &start_p
     }
 
     //position to check   
-    context_to_check = start_piece->context_to_check(start_position,end_position);
+    context_to_check = start_piece->context_to_check(start_position,end_position,start_cell->get_owner());
     vector_size = context_to_check->size();
 
     //cells to check
