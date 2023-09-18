@@ -35,6 +35,7 @@ Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::Board(const std::array<Piece,PIECE_TY
 {
     default_board_configuration();
 }
+
 template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES, 
     unsigned int N_PLAYER>
 void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::try_move_piece(position &start_position, position &end_position,
@@ -62,9 +63,11 @@ void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::try_move_piece(position &start_p
     if(!start_piece){
         return;
     }
-    
+
+    //position to check   
     context_to_check = start_piece->context_to_check(start_position,end_position);
     vector_size = context_to_check->size();
+
     //cells to check
     const struct framework::Board_cell *cell_to_check[vector_size];
     for(int i =0; i < vector_size;i++)
@@ -79,6 +82,8 @@ void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::try_move_piece(position &start_p
         dest_cell->overwrite(*start_cell);
         dest_cell->reset();
     }
+
+    //free the memory
     context_to_check->clear();
     context_to_check->shrink_to_fit();
     delete context_to_check;
@@ -94,6 +99,7 @@ void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::reset_board()
     }
     default_board_configuration();
 }
+
 template<unsigned int SIDE_H,unsigned int SIDE_V,unsigned int PIECE_TYPES, 
     unsigned int N_PLAYER>
 void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::print_board() const

@@ -30,7 +30,7 @@ namespace framework {
                     void try_move_piece(position &start_position, position &end_position,
                             const unsigned int player);
                     void print_board() const;
-                    const unsigned int board_area(){
+                    const unsigned int board_area()const{
                         return SIDE_V * SIDE_H;
                     }
                 private:

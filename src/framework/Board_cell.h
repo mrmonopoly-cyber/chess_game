@@ -5,7 +5,7 @@
 #include <iostream>
 
 namespace framework{
-struct position{
+    struct position{
         const unsigned int x;
         const unsigned int y;
     };
