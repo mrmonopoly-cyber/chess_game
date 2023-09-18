@@ -76,7 +76,7 @@ void Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER>::try_move_piece(position &start_p
     }
     
     //checking fase
-    if(start_piece->valid_move(cell_to_check,vector_size) && board_peculiar_status_mantained())
+    if(start_piece->valid_move(cell_to_check,context_to_check,vector_size) && board_peculiar_status_mantained())
     {
         //moving piece
         dest_cell->overwrite(*start_cell);

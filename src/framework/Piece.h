@@ -19,7 +19,7 @@ namespace framework {
                     position &start_position, position &end_position,
                     const unsigned int owner)const;
             virtual bool valid_move(const struct framework::Board_cell ** context_array,
-                    std::vector<struct framework::position> positions,
+                    std::vector<struct framework::position> *positions,
                     const unsigned int size)const;
     
         protected:

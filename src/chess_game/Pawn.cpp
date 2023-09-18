@@ -43,7 +43,7 @@ bool Pawn::valid_move(const struct framework::Board_cell ** context_array,
         std::vector<struct framework::position> positions,
         const unsigned int size)const 
 {
-    if(context_array[0][0].get_type()!="Pawn"){
+    if(!context_array || context_array[0][0].get_type()!="Pawn"){
         return false;
     }
     //single push ,attack normal
