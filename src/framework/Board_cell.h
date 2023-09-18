@@ -13,9 +13,11 @@ namespace framework{
     class Board_cell{
         public:
             Board_cell();
+            bool is_empty()const;
+            bool no_moved() const;
             void reset();
             unsigned int get_owner()const;
-            std::string &get_type();
+            const std::string &get_type() const;
             void overwrite(Board_cell &cell);
             friend std::ostream& operator<<(std::ostream &stream, const framework::Board_cell &board_cell);
         private:

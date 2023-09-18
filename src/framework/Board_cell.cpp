@@ -20,7 +20,7 @@ unsigned int Board_cell::get_owner() const
     return this->owner;
 }
 
-std::string &Board_cell::get_type() 
+const std::string &Board_cell::get_type() const
 {
     return this->piece_type;
 }
