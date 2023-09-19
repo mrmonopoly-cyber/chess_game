@@ -152,7 +152,7 @@ namespace framework {
                 Board_cell *find_cell(const struct position &pos)
                 {
                     const unsigned int index = pos.x + (pos.y * SIDE_V);   
-                    if(index >= 0 && index < (SIDE_H * SIDE_V))
+                    if(index >= 0 && index > (SIDE_H * SIDE_V))
                     {
                         return nullptr;
                     }
