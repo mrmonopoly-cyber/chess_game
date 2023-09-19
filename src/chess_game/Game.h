@@ -15,7 +15,7 @@ namespace chess {
             void restart_game();
             void game_status() const;
         private:
-            framework::Board<8, 8, 6, 2, 2> board ;
+            framework::Board<8, 8, 6, 2, 32> board ;
     };
 }
 

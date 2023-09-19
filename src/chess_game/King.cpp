@@ -5,16 +5,16 @@
 
 using namespace chess;
 
-Queen::Queen() : framework::Piece("Queen")
+King::King() : framework::Piece("King")
 {
     //ok to be empty
 }
-Queen::~Queen() 
+King::~King() 
 {
     //ok to be empty
 }
 
-std::vector<struct framework::position> *Queen::context_to_check(
+std::vector<struct framework::position> *King::context_to_check(
         framework::position &start_position, framework::position &end_position,
         const unsigned int owner)const 
 {
@@ -48,7 +48,7 @@ std::vector<struct framework::position> *Queen::context_to_check(
     }
     return res;
 }
-bool Queen::valid_move(const struct framework::Board_cell * context_array,
+bool King::valid_move(const struct framework::Board_cell * context_array,
         std::vector<struct framework::position> *positions,
         const unsigned int size)const 
 {

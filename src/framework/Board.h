@@ -113,7 +113,7 @@ namespace framework {
                 {
                     unsigned int cursor = 0;
                     for(const Board_cell & cell : board){
-                        std::cout << cell << " ";
+                        std::cout << cell << "\t";
                         cursor++;
                         if(cursor == SIDE_H){
                             std::cout << std::endl;
