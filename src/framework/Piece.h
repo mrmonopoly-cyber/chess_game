@@ -13,7 +13,7 @@ namespace framework {
             Piece(const unsigned int range, const std::string name);
             Piece(const unsigned int range, const std::string name, const bool jump_pieces);
             virtual ~Piece();
-            std::string *piece_name() const;
+            const std::string &piece_name() const;
 
             virtual std::vector<struct position> *context_to_check(
                     position &start_position, position &end_position,

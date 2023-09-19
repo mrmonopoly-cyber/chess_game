@@ -57,7 +57,7 @@ namespace framework {
                     if(p_index == -1){
                         return;
                     }
-                    cell.overwrite(*piece.piece_name(), p_index);
+                    cell.overwrite(piece.piece_name(), p_index);
                 }
                 void try_move_piece(position &start_position, position &end_position,
                         const unsigned int player)
@@ -136,7 +136,7 @@ namespace framework {
                         if(!cell){
                             continue;
                         }
-                        cell->overwrite(*(piece->piece_name()),c.Piece_owner);
+                        cell->overwrite(piece->piece_name(),c.Piece_owner);
                         cell = nullptr;
                     }
                 }
@@ -166,7 +166,7 @@ namespace framework {
                     }
                     for(const Piece *p : pieces_properties)
                     {
-                        if(*(*p).piece_name() == piece_type){
+                        if(p->piece_name() == piece_type){
                             return p;
                         }
                     }

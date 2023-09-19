@@ -29,6 +29,11 @@ Piece::~Piece()
     //ok to be empty
 }
 //functions
+
+const std::string &Piece::piece_name() const
+{
+    return name;
+}
 std::vector<struct position> * Piece::context_to_check(
         position &start_position, position &end_position,
         const unsigned int owner)const

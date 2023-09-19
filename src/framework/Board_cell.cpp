@@ -32,6 +32,13 @@ void Board_cell::overwrite(Board_cell &cell)
     this->never_moved = false;
 }
 
+void Board_cell::overwrite(const std::string &piece_name, const unsigned int owner)
+{
+    this->piece_type = piece_name;
+    this->owner = owner;
+    this->never_moved = false;
+}
+
 bool Board_cell::is_empty()const
 {
     return this->piece_type.empty();
