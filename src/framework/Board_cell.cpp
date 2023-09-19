@@ -32,6 +32,17 @@ void Board_cell::overwrite(Board_cell &cell)
     this->never_moved = false;
 }
 
+bool Board_cell::is_empty()const
+{
+    return this->piece_type.empty();
+}
+
+
+bool Board_cell::no_moved() const
+{
+    return this->never_moved;
+}
+
 std::ostream& framework::operator<<(std::ostream &stream, const framework::Board_cell &board_cell)
 {
     stream << board_cell.piece_type << board_cell.owner;

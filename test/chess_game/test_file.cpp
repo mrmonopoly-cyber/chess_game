@@ -7,6 +7,6 @@ using namespace framework;
 int main(int argc, char *argv[]) {
 
     chess::Chess_game game;
-    
+    game.game_status();   
     return 0;
 }

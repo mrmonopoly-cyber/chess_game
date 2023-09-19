@@ -5,11 +5,17 @@
 #include <iostream>
 
 namespace framework{
-    struct position{
+    struct cell_configuration
+    {
         const unsigned int x;
         const unsigned int y;
+        const unsigned int Piece_index;
+        const unsigned int Piece_owner;
     };
-
+    struct position{
+        unsigned int x;
+        unsigned int y;
+    };
     class Board_cell{
         public:
             Board_cell();

@@ -1,32 +1,40 @@
-#include "Game.h"
+#include "include/chess_game/Game.h"
+#include "include/chess_game/Chess_pieces.h"
 #include <array>
-#include "Chess_pieces.h"
 
 using namespace chess;
 
 //private implementation function
-void starting_board_configuration()
-{
-}
-
-static framework::Board<8,8,6,2> initilization(){
-    const std::array<Player,2> player_list;
-    const std::array<framework::Piece,6> piece_list =
+static framework::Board<8,8,6,2,2> initilization(){
+    const std::array<const Player,2> player_list;
+    const std::array<const framework::Piece,6> piece_list =
     {
-        chess::Pawn(),
-        chess::Knight(),
-        chess::Bishop(),
-        chess::Rook(),
-        chess::Queen(),
-        chess::King()
+        Pawn(),
+        Knight(),
+        Pawn(),
+        Pawn(),
+        Pawn(),
+        Pawn()
+        // King()
+        // Rook(),
+        // Queen(),
+        // King()
     };
-    return framework::Board<8,8,6,2>(piece_list,player_list,starting_board_configuration);
+    const std::array<const framework::cell_configuration,2> board_conf = 
+    {
+        0,1,0,1,
+        1,1,0,1
+    };
+    return framework::Board<8,8,6,2,2>(piece_list,player_list,board_conf);
 }
-
-
 
 //public
-chess::Chess_game::Chess_game() : board(initilization())
+Chess_game::Chess_game() : board(initilization())
+{
+    //ok to be empty
+}
+
+Chess_game::~Chess_game()
 {
     //ok to be empty
 }

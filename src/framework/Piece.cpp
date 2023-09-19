@@ -1,4 +1,4 @@
-#include "Piece.h"
+#include "include/framework/Piece.h"
 #include <cstdlib>
 
 using namespace framework;

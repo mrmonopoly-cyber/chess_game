@@ -1,5 +1,4 @@
 #include <vector>
-#include "Chess_pieces.h"
 #include "include/chess_game/Chess_pieces.h"
 
 using namespace chess;
