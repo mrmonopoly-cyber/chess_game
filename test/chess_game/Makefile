@@ -4,8 +4,8 @@ CXXFLAGS= -Wall -Wextra -O0
 
 all : test_bakcand Board_cell.o Piece.o Player.o Pawn.o Knight.o Bishop.o Rook.o Queen.o King.o Game.o test_file.o
 
-test_bakcand : Piece.o Board_cell.o Player.o Game.o Pawn.o Knight.o Bishop.o Rook.o Queen.o King.o test_file.o
-	g++ $(optimization) -g  Piece.o Board_cell.o Player.o Pawn.o Knight.o Bishop.o Rook.o Queen.o King.o Game.o test_file.o -o test_bakcand
+test_bakcand : Piece.o generic_chess_piece.o Board_cell.o Player.o Game.o Pawn.o Knight.o Bishop.o Rook.o Queen.o King.o test_file.o
+	g++ $(optimization) -g  Piece.o generic_chess_piece.o Board_cell.o Player.o Pawn.o Knight.o Bishop.o Rook.o Queen.o King.o Game.o test_file.o -o test_bakcand
 
 Piece.o : include/framework/Piece.cpp
 	g++ $(optimization) -c -g include/framework/Piece.cpp
@@ -13,8 +13,8 @@ Piece.o : include/framework/Piece.cpp
 Board_cell.o : include/framework/Piece.cpp
 	g++ $(optimization) -c -g include/framework/Board_cell.cpp
 
-# Board.o : include/framework/Board.cpp
-# 	g++ $(optimization) -c -g include/framework/Board.cpp
+generic_chess_piece.o : include/chess_game/generic_chess_piece.cpp
+	g++ $(optimization) -c -g include/chess_game/generic_chess_piece.cpp
 
 Player.o : include/framework/Player.cpp
 	g++ $(optimization) -c -g include/framework/Player.cpp
@@ -45,4 +45,4 @@ test_file.o : test_file.cpp
 
 
 clean : 
-	rm  Piece.o Board_cell.o Player.o Pawn.o Knight.o Bishop.o Rook.o Queen.o King.o Game.o test_file.o test_bakcand
+	rm  Piece.o generic_chess_piece.o Board_cell.o Player.o Pawn.o Knight.o Bishop.o Rook.o Queen.o King.o Game.o test_file.o test_bakcand

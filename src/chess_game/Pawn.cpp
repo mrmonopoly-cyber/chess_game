@@ -5,7 +5,7 @@
 using namespace chess;
 using namespace framework;
 
-Pawn::Pawn() : framework::Piece(1,"Pawn")
+Pawn::Pawn() : chess::Generic_chess_piece(1,"Pawn" )
 {
     //ok to be empty
 }
@@ -44,8 +44,7 @@ std::vector<struct framework::position> *Pawn::context_to_check(
     return nullptr;
 }
 bool Pawn::valid_move(const std::vector<framework::Board_cell> & context_array,
-        std::vector<struct framework::position> *positions,
-        const unsigned int size)const
+        std::vector<struct framework::position> *positions)const
 {
     if(context_array.empty() || context_array.at(0).get_type()!="Pawn"){
         return false;

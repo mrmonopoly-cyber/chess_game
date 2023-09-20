@@ -2,10 +2,11 @@
 #define _CHESS_PIECES_
 
 #include "include/framework/Piece.h"
+#include "include/chess_game/generic_chess_piece.h"
 
 namespace chess {
 #pragma region PAWN
-    class Pawn : public framework::Piece
+    class Pawn : public chess::Generic_chess_piece
     {
         public:
             Pawn();
@@ -14,13 +15,12 @@ namespace chess {
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
             bool valid_move(const std::vector<framework::Board_cell> &context_array,
-                    std::vector<struct framework::position> *positions,
-                    const unsigned int size)const override;
+                    std::vector<struct framework::position> *positions)const override;
 
     };
 #pragma endregion PAWN
 #pragma region KNIGHT
-    class Knight: public framework::Piece
+    class Knight: public chess::Generic_chess_piece
     {
         public:
             Knight();
@@ -29,8 +29,7 @@ namespace chess {
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
             bool valid_move(const std::vector<framework::Board_cell> &context_array,
-                    std::vector<struct framework::position> *positions,
-                    const unsigned int size)const override;
+                    std::vector<struct framework::position> *positions)const override;
 
         private:
             bool l_movement(framework::position &start_position, framework::position &end_position) const;
@@ -38,66 +37,46 @@ namespace chess {
 
 #pragma endregion KNIGHT
 #pragma region BISHOP
-    class Bishop: public framework::Piece
+    class Bishop: public chess::Generic_chess_piece
     {
         public:
             Bishop();
             ~Bishop() override;
-            std::vector<struct framework::position> *context_to_check(
-                    framework::position &start_position, framework::position &end_position,
-                    const unsigned int owner)const override;
-            bool valid_move(const std::vector<framework::Board_cell> &context_array,
-                    std::vector<struct framework::position> *positions,
-                    const unsigned int size)const override;
+        private:
+            bool increment_conf(const int diff_x, const int diff_y,
+                                int &increment_x, int &increment_y)const override;
 
     };
 
 #pragma endregion BISHOP
 #pragma region ROOK
-    class Rook: public framework::Piece
+    class Rook: public chess::Generic_chess_piece
     {
         public:
             Rook();
             ~Rook() override;
-            std::vector<struct framework::position> *context_to_check(
-                    framework::position &start_position, framework::position &end_position,
-                    const unsigned int owner)const override;
-            bool valid_move(const std::vector<framework::Board_cell> &context_array,
-                    std::vector<struct framework::position> *positions,
-                    const unsigned int size)const override;
+        private:
+            bool increment_conf(const int diff_x, const int diff_y,
+                                int &increment_x, int &increment_y)const override;
 
     };
 
 #pragma endregion ROOK
 #pragma region QUEEN
-    class Queen: public framework::Piece
+    class Queen: public chess::Generic_chess_piece
     {
         public:
             Queen();
             ~Queen() override;
-            std::vector<struct framework::position> *context_to_check(
-                    framework::position &start_position, framework::position &end_position,
-                    const unsigned int owner)const override;
-            bool valid_move(const std::vector<framework::Board_cell> &context_array,
-                    std::vector<struct framework::position> *positions,
-                    const unsigned int size)const override;
-
     };
 
 #pragma endregion QUEEN
 #pragma region KING
-    class King: public framework::Piece
+    class King: public chess::Generic_chess_piece
     {
         public:
             King();
             ~King() override;
-            std::vector<struct framework::position> *context_to_check(
-                    framework::position &start_position, framework::position &end_position,
-                    const unsigned int owner)const override;
-            bool valid_move(const std::vector<framework::Board_cell> &context_array,
-                    std::vector<struct framework::position> *positions,
-                    const unsigned int size)const override;
-
     };
 
 #pragma endregion KING

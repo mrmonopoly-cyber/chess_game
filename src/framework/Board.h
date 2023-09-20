@@ -107,7 +107,7 @@ namespace framework {
                         }
                     }                  
                     //checking fase
-                    if(start_piece->valid_move(pc,context_to_check,vector_size) && board_peculiar_status_mantained())
+                    if(start_piece->valid_move(pc,context_to_check) && board_peculiar_status_mantained())
                     {
                         //moving piece
                         dest_cell->overwrite(*start_cell);

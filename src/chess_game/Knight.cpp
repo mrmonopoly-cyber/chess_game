@@ -4,7 +4,7 @@
 using namespace chess;
 using namespace framework;
 
-Knight::Knight():Piece(3,"Knight")
+Knight::Knight():chess::Generic_chess_piece(3,"Knight")
 {
     //ok to be empty
 }
@@ -29,8 +29,7 @@ std::vector<struct position> *Knight::context_to_check(
 }
 
 bool Knight::valid_move(const std::vector<framework::Board_cell> & context_array,
-        std::vector<struct framework::position> *positions,
-        const unsigned int size)const
+        std::vector<struct framework::position> *positions)const
 {
     if(context_array.empty()){
         return false;

@@ -5,7 +5,7 @@
 
 using namespace chess;
 
-Bishop::Bishop() : framework::Piece("Bishop")
+Bishop::Bishop() : chess::Generic_chess_piece("Bishop")
 {
     //ok to be empty
 }
@@ -14,48 +14,21 @@ Bishop::~Bishop()
     //ok to be empty
 }
 
-std::vector<struct framework::position> *Bishop::context_to_check(
-        framework::position &start_position, framework::position &end_position,
-        const unsigned int owner)const 
+bool Bishop::increment_conf(const int diff_x, const int diff_y,
+        int &increment_x, int &increment_y)const
 {
-    const int diff_x = ((int) end_position.x - (int)start_position.x);
-    const int diff_y = ((int) end_position.y - (int)start_position.y);
-    int increment_x = -1;
-    int increment_y = -1;
+
     if(diff_x > 0){
-        increment_x = 1;
+        increment_x= 1;
     }
     if (diff_y > 0) {
-        increment_y = 1;
+        increment_y= 1;
     }
-    if(diagonal_check(start_position, end_position)){
-        std::vector<framework::position> *res = new std::vector<framework::position>(0);
-        for(int i=0;i<=abs(diff_x);i++)
-        {
-            res->emplace_back(framework::position{start_position.x + (increment_x * i),start_position.y + (increment_y *i)});
-        }
-        return res;
+    if(diagonal_check(diff_x, diff_y)){
+        return true;
     }
-    return nullptr;
+    return false;
 
 }
-bool Bishop::valid_move(const std::vector<framework::Board_cell> &context_array,
-        std::vector<struct framework::position> *positions,
-        const unsigned int size)const 
-{
-    if(context_array.empty()){
-        return false;
-    }
 
-    if(context_array.at(0).get_type() != "Bishop"){
-        return false;
-    }
 
-    for(int i=1;i<size;i++){
-        if(!context_array.at(i).is_empty()){
-            return false;
-        }
-    }
-
-    return true;
-}
