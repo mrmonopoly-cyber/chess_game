@@ -1,4 +1,8 @@
 #pragma once
+/*
+ * Author : Alberto Damo
+ * Date : 2023-09-21
+ */
 #include <string>
 class Player{
     public:
@@ -7,5 +11,4 @@ class Player{
         const unsigned int player_name()const;
     private:
         std::string name;
-        const unsigned int score;
 };

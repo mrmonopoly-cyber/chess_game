@@ -1,4 +1,8 @@
 #pragma once
+/*
+ * Author : Alberto Damo
+ * Date : 2023-09-21
+ */
 #include "include/framework/Piece.h"
 #include "include/framework/Board_cell.h"
 
