@@ -1,4 +1,10 @@
 #pragma once
+/*
+ * author : Alberto Damo
+ * date : 2023-09-20
+ *
+ * 
+ */
 #include <string>
 #include <vector>
 
