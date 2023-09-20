@@ -1,5 +1,4 @@
-#ifndef _BOARD_CELL
-#define _BOARD_CELL
+#pragma once
 #include <ostream>
 #include <string>
 #include <iostream>
@@ -34,5 +33,3 @@ namespace framework{
     };
 std::ostream& operator<<(std::ostream &stream, const framework::Board_cell &board_cell);
 }
-
-#endif //!_BOARD_CELL

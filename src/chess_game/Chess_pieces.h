@@ -1,6 +1,4 @@
-#ifndef _CHESS_PIECES_
-#define _CHESS_PIECES_
-
+#pragma once
 #include "include/framework/Piece.h"
 #include "include/chess_game/generic_chess_piece.h"
 
@@ -81,6 +79,3 @@ namespace chess {
 
 #pragma endregion KING
 }
-
-
-#endif //!_CHESS_PIECES_

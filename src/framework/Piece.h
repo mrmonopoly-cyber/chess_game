@@ -1,5 +1,4 @@
-#ifndef _PIECES_
-#define _PIECES_
+#pragma once
 #include <string>
 #include <vector>
 
@@ -23,4 +22,3 @@ namespace framework {
             const std::string name;
     };
 }
-#endif //!_PIECES_

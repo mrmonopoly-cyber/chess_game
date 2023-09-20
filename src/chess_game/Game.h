@@ -1,5 +1,4 @@
-#ifndef _CHESS_GAME_
-#define _CHESS_GAME_
+#pragma once
 
 #include <cstddef>
 #include "include/framework/Board.h"
@@ -20,5 +19,3 @@ namespace chess {
             unsigned int current_player_turn = 0;
     };
 }
-
-#endif //!_CHESS_GAME_

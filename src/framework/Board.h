@@ -1,5 +1,4 @@
-#ifndef _BOARD_GENERAL_
-#define _BOARD_GENERAL_
+#pragma once
 #include <memory>
 #include <iostream>
 #include <string>
@@ -195,4 +194,3 @@ namespace framework {
                 const std::function<bool(void)>board_peculiar_status_mantained = [](){return true;};
         };
 }  // namespace framework
-#endif //!_BOARD_GENERAL_

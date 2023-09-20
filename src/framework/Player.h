@@ -1,5 +1,4 @@
-#ifndef _PLAYER_
-#define _PLAYER_
+#pragma once
 #include <string>
 class Player{
     public:
@@ -10,4 +9,3 @@ class Player{
         std::string name;
         const unsigned int score;
 };
-#endif //!_PLAYER_
