@@ -96,6 +96,13 @@ namespace framework {
                         for(int i =0; i < vector_size;i++)
                         {
                             Board_cell *b = find_cell(context_to_check->at(i));
+                            if(!b)
+                            {
+                                context_to_check->clear();
+                                context_to_check->shrink_to_fit();
+                                delete context_to_check;
+                                return false;
+                            }
                             pc.push_back(*b);
                         }
                     }                  

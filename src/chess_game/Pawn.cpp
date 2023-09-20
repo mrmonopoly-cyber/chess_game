@@ -25,7 +25,7 @@ std::vector<struct framework::position> *Pawn::context_to_check(
     if(diff_y == 2 && !diff_x){
         std::vector<struct position> *res = new std::vector<struct position>(0);
         res->emplace_back(start_position);
-        if(owner){
+        if(!owner){
             res->emplace_back(position{start_position.x,start_position.y-1});
         }else {
             res->emplace_back(position{start_position.x,start_position.y+1});

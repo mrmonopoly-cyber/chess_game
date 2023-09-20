@@ -18,8 +18,8 @@ std::vector<struct framework::position> *Bishop::context_to_check(
         framework::position &start_position, framework::position &end_position,
         const unsigned int owner)const 
 {
-    const unsigned int diff_x = std::abs((int) end_position.x - (int)start_position.x);
-    const unsigned int diff_y = std::abs((int) end_position.y - (int)start_position.y);
+    const int diff_x = ((int) end_position.x - (int)start_position.x);
+    const int diff_y = ((int) end_position.y - (int)start_position.y);
     int increment_x = -1;
     int increment_y = -1;
     if(diff_x > 0){
@@ -29,8 +29,8 @@ std::vector<struct framework::position> *Bishop::context_to_check(
         increment_y = 1;
     }
     if(diagonal_check(start_position, end_position)){
-        std::vector<framework::position> *res = new std::vector<framework::position>(diff_x);
-        for(int i=0;i<diff_x;i++)
+        std::vector<framework::position> *res = new std::vector<framework::position>(0);
+        for(int i=0;i<=abs(diff_x);i++)
         {
             res->emplace_back(framework::position{start_position.x + (increment_x * i),start_position.y + (increment_y *i)});
         }
@@ -47,7 +47,11 @@ bool Bishop::valid_move(const std::vector<framework::Board_cell> &context_array,
         return false;
     }
 
-    for(int i=0;i<size;i++){
+    if(context_array.at(0).get_type() != "Bishop"){
+        return false;
+    }
+
+    for(int i=1;i<size;i++){
         if(!context_array.at(i).is_empty()){
             return false;
         }

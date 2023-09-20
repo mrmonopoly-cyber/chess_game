@@ -92,4 +92,5 @@ void Chess_game::move_piece(framework::position &start,framework::position &end)
 void Chess_game::game_status() const
 {
     this->board.print_board();
+    std::cout << "next turn: " << this->current_player_turn << std::endl;
 }

@@ -51,22 +51,23 @@ bool Piece::valid_move(const std::vector<Board_cell> &context_array,
 bool Piece::vertical_check(const position &start_position,
         const position &end_position) const
 {
-    const unsigned int diff_x = end_position.x - start_position.x;
-    const unsigned int diff_y = end_position.y - start_position.y;
-    return !diff_x && this->range >= diff_y;
+    const unsigned int diff_x = abs((int)end_position.x - (int)start_position.x);
+    const unsigned int diff_y = abs((int)end_position.y - (int)start_position.y);
+    return !diff_x && (diff_y - this->range) > 0;
 }
 bool Piece::horizontal_check(const position &start_position,
         const position &end_position) const
 {
-    const unsigned int diff_x = end_position.x - start_position.x;
-    const unsigned int diff_y = end_position.y - start_position.y;
-    return !diff_y  && this->range >= diff_x;
+    const unsigned int diff_x = abs((int)end_position.x - (int)start_position.x);
+    const unsigned int diff_y = abs((int)end_position.y - (int)start_position.y);
+    return !diff_y && (diff_x - this->range) > 0;
 
 }
 bool Piece::diagonal_check(const position &start_position,
         const position &end_position) const
 {
-    const unsigned int diff_x = end_position.x - start_position.x;
-    const unsigned int diff_y = end_position.y - start_position.y;
-    return diff_x == diff_y && this->range>=diff_x;
+    const unsigned int diff_x = abs((int)end_position.x - (int)start_position.x);
+    const unsigned int diff_y = abs((int)end_position.y - (int)start_position.y);
+    return diff_x == diff_y && (diff_x - this->range) > 0;
+
 }
