@@ -4,7 +4,6 @@
 #include "include/chess_game/Chess_pieces.h"
 
 using namespace chess;
-
 King::King() : framework::Piece("King")
 {
     //ok to be empty
@@ -48,16 +47,16 @@ std::vector<struct framework::position> *King::context_to_check(
     }
     return res;
 }
-bool King::valid_move(const struct framework::Board_cell * context_array,
+bool King::valid_move(const std::vector<framework::Board_cell> &context_array,
         std::vector<struct framework::position> *positions,
         const unsigned int size)const 
 {
-    if(!context_array){
+    if(context_array.empty()){
         return false;
     }
 
     for(int i=0;i<size;i++){
-        if(!context_array[i].is_empty()){
+        if(!context_array.at(i).is_empty()){
             return false;
         }
     }

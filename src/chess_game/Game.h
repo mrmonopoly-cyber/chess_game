@@ -13,9 +13,11 @@ namespace chess {
             Chess_game();
             ~Chess_game();
             void restart_game();
-            void game_status() const;
+            void move_piece(framework::position &start,framework::position &end);
+           void game_status() const;
         private:
             framework::Board<8, 8, 6, 2, 32> board ;
+            unsigned int current_player_turn = 0;
     };
 }
 

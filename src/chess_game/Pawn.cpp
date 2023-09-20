@@ -23,7 +23,7 @@ std::vector<struct framework::position> *Pawn::context_to_check(
     const unsigned int diff_y =abs((int)start_position.y - (int)end_position.y); 
     //double push
     if(diff_y == 2 && !diff_x){
-        std::vector<struct position> *res = new std::vector<struct position>(3);
+        std::vector<struct position> *res = new std::vector<struct position>(0);
         res->emplace_back(start_position);
         if(owner){
             res->emplace_back(position{start_position.x,start_position.y-1});
@@ -36,37 +36,37 @@ std::vector<struct framework::position> *Pawn::context_to_check(
     //single push
     if(diff_y == 1 && !diff_x)
     {
-        std::vector<struct position> *res = new std::vector<struct position>(2);
+        std::vector<struct position> *res = new std::vector<struct position>(0);
         res->emplace_back(start_position);
         res->emplace_back(end_position);
         return res;
     }
     return nullptr;
 }
-bool Pawn::valid_move(const struct framework::Board_cell * context_array,
+bool Pawn::valid_move(const std::vector<framework::Board_cell> & context_array,
         std::vector<struct framework::position> *positions,
         const unsigned int size)const
 {
-    if(!context_array || context_array[0].get_type()!="Pawn"){
+    if(context_array.empty() || context_array.at(0).get_type()!="Pawn"){
         return false;
     }
     //single push ,attack normal
-    if(size == 2){
+    if(context_array.size()== 2){
         return 
             //single push
-            (context_array[0].is_empty() &&
-                (*positions)[0].x == (*positions)[1].x) ||
+            (context_array.at(1).is_empty() &&
+                positions->at(0).x == positions->at(1).x) ||
             //attack normal
-            ((*positions)[0].x != (*positions)[1].x &&
-             context_array[0].get_owner() != context_array[1].get_owner());
+            (positions->at(0).x != positions->at(1).x &&
+             context_array.at(0).get_owner() != context_array.at(1).get_owner());
     }
     //double push
-    if(size==3){
+    if(context_array.size()==3){
         return 
-            context_array[0].no_moved() &&
-            context_array[1].is_empty() &&
-            context_array[2].is_empty() &&
-            (*positions)[0].x == (*positions)[2].x;
+            context_array.at(0).no_moved() &&
+            context_array.at(1).is_empty() &&
+            context_array.at(2).is_empty() &&
+            positions->at(0).x == positions->at(2).x;
     }
     return false;
 }

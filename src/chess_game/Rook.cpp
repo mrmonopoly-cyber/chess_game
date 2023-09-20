@@ -1,6 +1,5 @@
 #include <cmath>
 #include <vector>
-#include "Chess_pieces.h"
 #include "include/chess_game/Chess_pieces.h"
 
 using namespace chess;
@@ -43,16 +42,16 @@ std::vector<struct framework::position> *Rook::context_to_check(
     }
     return res;
 }
-bool Rook::valid_move(const struct framework::Board_cell * context_array,
+bool Rook::valid_move(const std::vector<framework::Board_cell> & context_array,
         std::vector<struct framework::position> *positions,
         const unsigned int size)const 
 {
-    if(!context_array){
+    if(context_array.empty()){
         return false;
     }
 
     for(int i=0;i<size;i++){
-        if(!context_array[i].is_empty()){
+        if(!context_array.at(i).is_empty()){
             return false;
         }
     }

@@ -7,6 +7,7 @@
 #include <array>
 #include <functional>
 
+#include "Board_cell.h"
 #include "include/framework/Player.h"
 #include "include/framework/Piece.h"
 #include "include/framework/Board_cell.h"
@@ -17,7 +18,7 @@ namespace framework {
         class Board {
             public:
                 Board() = delete;
-                Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER,N_DEF_PIECE>(const std::array<const Piece,PIECE_TYPES> &pieces_properties,
+                Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER,N_DEF_PIECE>(const std::array<const Piece*,PIECE_TYPES> &pieces_properties,
                         const std::array<const Player,N_PLAYER> &player_list,
                         const std::array<const cell_configuration,N_DEF_PIECE> & default_board_configuration)
                     :pieces_properties(pieces_properties),players(player_list),
@@ -26,7 +27,7 @@ namespace framework {
                     apply_default_conf_board();
                 }
 
-                Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER,N_DEF_PIECE>(const std::array<const Piece,PIECE_TYPES> &pieces_properties,
+                Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER,N_DEF_PIECE>(const std::array<const Piece*,PIECE_TYPES> &pieces_properties,
                         const std::array<const Player,N_PLAYER> &player_list,
                         const std::array<const cell_configuration,N_DEF_PIECE> & default_board_configuration,
                         const std::function<bool(void)>board_peculiar_status_mantained)
@@ -57,58 +58,64 @@ namespace framework {
                     if(p_index == -1){
                         return;
                     }
-                    cell.overwrite(piece.piece_name(), p_index);
+                    cell.put_piece(piece.piece_name(), p_index);
                 }
-                void try_move_piece(position &start_position, position &end_position,
+                bool try_move_piece(position &start_position, position &end_position,
                         const unsigned int player)
                 {
                     Board_cell *start_cell;
                     Board_cell *dest_cell;
-                    Piece *start_piece;
+                    const Piece *start_piece;
                     std::vector<struct position> *context_to_check;
                     unsigned int vector_size;
 
                     //cells
                     start_cell = find_cell(start_position);
-                    if(!start_cell){
-                        return;
+                    if(!start_cell || start_cell->get_owner() != player){
+                        return false;
                     }
                     dest_cell = find_cell(end_position);
                     if(!dest_cell)
                     {
-                        return;
+                        return false;
                     }
 
                     //piece
                     start_piece = find_piece_category(start_cell->get_type());
                     if(!start_piece){
-                        return;
+                        return false;
                     }
 
                     //position to check   
                     context_to_check = start_piece->context_to_check(start_position,end_position,start_cell->get_owner());
-                    vector_size = context_to_check->size();
+                    std::vector<Board_cell> pc = std::vector<Board_cell>(0);
 
-                    //cells to check
-                    const struct framework::Board_cell cell_to_check[vector_size];
-                    for(int i =0; i < vector_size;i++)
-                    {
-                        cell_to_check[i] = find_cell(context_to_check[i]);
-                    }
-
+                    if(context_to_check){
+                        vector_size = context_to_check->size();
+                        //cells to check
+                        for(int i =0; i < vector_size;i++)
+                        {
+                            Board_cell *b = find_cell(context_to_check->at(i));
+                            pc.push_back(*b);
+                        }
+                    }                  
                     //checking fase
-                    if(start_piece->valid_move(cell_to_check,context_to_check,vector_size) && board_peculiar_status_mantained())
+                    if(start_piece->valid_move(pc,context_to_check,vector_size) && board_peculiar_status_mantained())
                     {
                         //moving piece
                         dest_cell->overwrite(*start_cell);
-                        dest_cell->reset();
+                        start_cell->reset();
                     }
 
                     //free the memory
-                    context_to_check->clear();
-                    context_to_check->shrink_to_fit();
-                    delete context_to_check;
+                    if(context_to_check){
+                        context_to_check->clear();
+                        context_to_check->shrink_to_fit();
+                        delete context_to_check;
+                    }
+                    return true;
                 }
+
                 void print_board() const
                 {
                     unsigned int cursor = 0;
@@ -132,11 +139,11 @@ namespace framework {
                     for(const cell_configuration &c : default_board_configuration)
                     {
                         cell = find_cell({c.x,c.y});
-                        piece = &this->pieces_properties[c.Piece_index];
+                        piece = this->pieces_properties[c.Piece_index];
                         if(!cell){
                             continue;
                         }
-                        cell->overwrite(piece->piece_name(),c.Piece_owner);
+                        cell->put_piece(piece->piece_name(),c.Piece_owner);
                         cell = nullptr;
                     }
                 }
@@ -164,17 +171,17 @@ namespace framework {
                     if(piece_type.empty()){
                         return nullptr;
                     }
-                    for(const Piece *p : pieces_properties)
+                    for(int i=0;i<pieces_properties.size();i++)
                     {
-                        if(p->piece_name() == piece_type){
-                            return p;
+                        if(pieces_properties.at(i)->piece_name() == piece_type){
+                            return pieces_properties.at(i);
                         }
                     }
                     return nullptr;
                 }
                 Piece *get_piece(const position *pos)const;
 
-                const std::array<const Piece,PIECE_TYPES> pieces_properties;
+                const std::array<const Piece *,PIECE_TYPES> pieces_properties;
                 std::array<Board_cell,SIDE_H*SIDE_V> board;
                 const std::array<const Player,N_PLAYER> players;
                 const std::array<const cell_configuration,N_DEF_PIECE> & default_board_configuration;

@@ -28,16 +28,16 @@ std::vector<struct position> *Knight::context_to_check(
     return nullptr;
 }
 
-bool Knight::valid_move(const struct framework::Board_cell * context_array,
+bool Knight::valid_move(const std::vector<framework::Board_cell> & context_array,
         std::vector<struct framework::position> *positions,
         const unsigned int size)const
 {
-    if(!context_array){
+    if(context_array.empty()){
         return false;
     }
     
-   const Board_cell *start_cell = &context_array[0];
-    const Board_cell *end_cell = &context_array[1];
+   const Board_cell *start_cell = &context_array.at(0);
+    const Board_cell *end_cell = &context_array.at(1);
     
     return 
         start_cell->get_type() == "Knight" &&
