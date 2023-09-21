@@ -1,4 +1,5 @@
 #include "Board_cell.h"
+#include <iostream>
 #include <string>
 
 using namespace framework;

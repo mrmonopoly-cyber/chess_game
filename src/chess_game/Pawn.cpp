@@ -33,8 +33,8 @@ std::vector<struct framework::position> *Pawn::context_to_check(
         res->emplace_back(end_position);
         return res;
     }
-    //single push
-    if(diff_y == 1 && !diff_x)
+    //single push and diagonal attack
+    if(diff_y == 1 && (!diff_x || diff_x == 1))
     {
         std::vector<struct position> *res = new std::vector<struct position>(0);
         res->emplace_back(start_position);

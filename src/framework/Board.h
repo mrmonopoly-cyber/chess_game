@@ -27,8 +27,6 @@
 #include <array>
 #include <functional>
 
-#include "Board_cell.h"
-#include "include/framework/Player.h"
 #include "include/framework/Piece.h"
 #include "include/framework/Board_cell.h"
 
@@ -45,23 +43,23 @@ namespace framework {
                 Board() = delete;
                 /*CONSTRUCTOR: it will create a board with no peculiar status to check
                  * @ piece_properties : Array of all the piece category of the game
-                 * @ player_list : Array with all the different player in the game
                  * @ default_board_config : Array with the initial configuration at the beginning 
                  *      of the game
                  *  After the Board is created it will also apply the default board configuration
                  */
                 BOARD(const array<const Piece*,PIECE_TYPES> &pieces_properties,
-                        const array<const Player,N_PLAYER> &player_list,
                         const array<const cell_configuration,N_DEF_PIECE> & default_board_config)
-                    :pieces_properties(pieces_properties),players(player_list),
+                    :pieces_properties(pieces_properties),players({}),
                     default_board_config(default_board_config)
                 {
                     apply_default_conf_board();
+                    for(int i=0;i<N_PLAYER;i++){
+                        players[i]=i;
+                    }
                 }
 
                 /*CONSTRUCTOR: it will create a board with a peculiar status to check
                  * @ piece_properties : Array of all the piece category of the game
-                 * @ player_list : Array with all the different player in the game
                  * @ default_board_config : Array with the initial configuration at the beginning 
                  *      of the game
                  * @ board_peculiar_status_maintained : Function which will return true if the 
@@ -69,10 +67,9 @@ namespace framework {
                  *  After the Board is created it will also apply the default board configuration
                  */
                 BOARD(const array<const Piece*,PIECE_TYPES> &pieces_properties,
-                        const array<const Player,N_PLAYER> &player_list,
                         const array<const cell_configuration,N_DEF_PIECE> & default_board_config,
                         const function<bool(void)>board_peculiar_status_maintained)
-                :pieces_properties(pieces_properties),players(player_list),
+                :pieces_properties(pieces_properties),
                     default_board_config(default_board_config),
                     board_peculiar_status_maintained(board_peculiar_status_maintained)
                 {
@@ -108,7 +105,7 @@ namespace framework {
                  *  if the piece, the position, or the player does not belong to any of the array
                  *  used to create the board the method will NOT insert the piece
                  */
-                void put_piece(const Piece &piece, const position pos,const Player &player)
+                void put_piece(const Piece &piece, const position pos,const unsigned int player)
                 {
                     framework::Board_cell *cell = find_cell(pos);
                     if(!cell){
@@ -235,10 +232,10 @@ namespace framework {
                         cell = nullptr;
                     }
                 }
-                int find_player(const Player &player) const
+                int find_player(const unsigned int player) const
                 {
                     for(int i=0;i<players.size();i++){
-                        if(players[i].player_name() == player.player_name()){
+                        if(players[i] == player){
                             return i;
                         }
                     }
@@ -271,7 +268,7 @@ namespace framework {
 
                 const array<const Piece *,PIECE_TYPES> pieces_properties;
                 array<Board_cell,SIDE_H*SIDE_V> board;
-                const array<const Player,N_PLAYER> players;
+                array<unsigned int,N_PLAYER> players;
                 const array<const cell_configuration,N_DEF_PIECE> & default_board_config;
                 const function<bool(void)>board_peculiar_status_maintained = [](){return true;};
         };

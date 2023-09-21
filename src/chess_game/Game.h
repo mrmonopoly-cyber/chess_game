@@ -7,14 +7,13 @@
  */
 #include <cstddef>
 #include "include/framework/Board.h"
-#include "include/framework/Player.h"
 #include "include/chess_game/Chess_pieces.h"
 
 #define SIDE_V 8
 #define SIDE_H 8
 #define N_PIECES_TYPES 6
-#define N_PLAYERS 6
-#define N_INITIAL_PIECES 6
+#define N_PLAYERS 2
+#define N_INITIAL_PIECES 32
 
 namespace chess {
     class Chess_game

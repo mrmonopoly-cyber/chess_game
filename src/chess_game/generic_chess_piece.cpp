@@ -36,11 +36,15 @@ bool Generic_chess_piece::valid_move(const std::vector<framework::Board_cell> & 
     if(context_array.at(0).get_type() != this->name){
         return false;
     }
-
-    for(int i=1;i<context_array.size();i++){
+    
+    int i=1;
+    for(i=1;i<context_array.size()-1;i++){
         if(!context_array.at(i).is_empty()){
             return false;
         }
+    }
+    if(!context_array[i].is_empty() && context_array[i].get_owner() == context_array[0].get_owner()){
+        return false;
     }
 
     return true;

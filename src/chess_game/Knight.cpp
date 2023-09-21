@@ -20,7 +20,7 @@ std::vector<struct position> *Knight::context_to_check(
 {
     if(l_movement(start_position, end_position))
     {
-        std::vector<struct position> *res = new std::vector<struct position>(2);
+        std::vector<struct position> *res = new std::vector<struct position>(0);
         res->emplace_back(start_position);
         res->emplace_back(end_position);
         return res;
@@ -39,7 +39,7 @@ bool Knight::valid_move(const std::vector<framework::Board_cell> & context_array
     const Board_cell *end_cell = &context_array.at(1);
     
     return 
-        start_cell->get_type() == "Knight" &&
+        start_cell->get_type() == this->piece_name() &&
         (end_cell->is_empty() || start_cell->get_owner() != end_cell->get_owner()  );
 }
 
@@ -48,5 +48,5 @@ bool Knight::l_movement(framework::position &start_position, framework::position
 {
     const unsigned int diff_x = abs((int)start_position.x - (int)end_position.x);
     const unsigned int diff_y = abs((int)start_position.y - (int)end_position.y);
-    return !diff_x && !diff_y && !(this->range - diff_x - diff_y);
+    return diff_x && diff_y && !(this->range - diff_x - diff_y);
 }

@@ -29,6 +29,14 @@ int main(int argc, char *argv[]) {
         7,5,
         2,0,
         5,3,
+        3,6,
+        3,4,
+        4,3,
+        3,4,
+        1,7,
+        2,5,
+        1,6,
+        1,5,
     };
     for(int i=0;i<sizeof(moves) / sizeof(moves[0]);i+=2)
     {

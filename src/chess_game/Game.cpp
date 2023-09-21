@@ -1,5 +1,4 @@
 #include "include/chess_game/Game.h"
-#include "Game.h"
 #include "include/chess_game/Chess_pieces.h"
 #include <array>
 
@@ -7,7 +6,6 @@ using namespace chess;
 
 //private implementation function
 static framework::Board<8,8,6,2,32> initilization(){
-    const std::array<const Player,2> player_list;
     const std::array<const framework::Piece*,6> piece_list =
     {
         new Pawn(),
@@ -64,7 +62,7 @@ static framework::Board<8,8,6,2,32> initilization(){
         //white King
         4,7,5,0
     };
-    return framework::Board<8,8,6,2,32>(piece_list,player_list,board_conf);
+    return framework::Board<8,8,6,2,32>(piece_list,board_conf);
 }
 
 //public
@@ -92,5 +90,5 @@ void Chess_game::move_piece(framework::position &start,framework::position &end)
 void Chess_game::game_status() const
 {
     this->board.print_board();
-    std::cout << "next turn: " << this->current_player_turn << std::endl;
+    std::cout << "next turn: " << (char)((int) '0' + this->current_player_turn) << std::endl;
 }
