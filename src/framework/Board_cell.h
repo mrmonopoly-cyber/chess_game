@@ -12,7 +12,7 @@ namespace framework{
     {
         const unsigned int x;
         const unsigned int y;
-        const unsigned int Piece_index;
+        const int Piece_index;
         const unsigned int Piece_owner;
     };
     struct position{

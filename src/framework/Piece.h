@@ -38,7 +38,8 @@ namespace framework {
              *          FALSE : invalid move
              */
             virtual bool valid_move(const std::vector<Board_cell> &context_array,
-                    std::vector<struct framework::position> *positions)const =0;
+                    std::vector<struct framework::position> *positions,
+                    std::vector<cell_configuration> &out_secondary_effect)const =0;
     
         protected:
             const std::string name;

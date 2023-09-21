@@ -27,6 +27,7 @@
 #include <array>
 #include <functional>
 
+#include "Board_cell.h"
 #include "include/framework/Piece.h"
 #include "include/framework/Board_cell.h"
 
@@ -52,7 +53,7 @@ namespace framework {
                     :pieces_properties(pieces_properties),players({}),
                     default_board_config(default_board_config)
                 {
-                    apply_default_conf_board();
+                    apply_conf_board();
                     for(int i=0;i<N_PLAYER;i++){
                         players[i]=i;
                     }
@@ -73,7 +74,7 @@ namespace framework {
                     default_board_config(default_board_config),
                     board_peculiar_status_maintained(board_peculiar_status_maintained)
                 {
-                    apply_default_conf_board();
+                    apply_conf_board();
                 }
 
                 ~Board()
@@ -90,7 +91,7 @@ namespace framework {
                     {
                         b.reset();
                     }
-                    apply_default_conf_board();
+                    apply_conf_board();
                 }
 
                 /*
@@ -137,6 +138,7 @@ namespace framework {
                     const Piece *start_piece;
                     vector<struct position> *context_to_check;
                     vector<Board_cell> pc = vector<Board_cell>(0);
+                    vector<cell_configuration> secondary_effect;
                     unsigned int vector_size;
 
                     //cells
@@ -177,12 +179,17 @@ namespace framework {
                         }
                     }                  
                     //checking phase
-                    if(start_piece->valid_move(pc,context_to_check) 
+                    if(start_piece->valid_move(pc,context_to_check,secondary_effect) 
                             && board_peculiar_status_maintained())
                     {
                         //moving piece
                         dest_cell->overwrite(*start_cell);
                         start_cell->reset();
+                        if(!secondary_effect.empty()){
+                            for(const cell_configuration &c : secondary_effect){
+                                analize_cell_configuration(c);
+                            }
+                        }
                     }
 
                     //free the memory
@@ -217,20 +224,54 @@ namespace framework {
                     return SIDE_V * SIDE_H;
                 }
             private:
-                void apply_default_conf_board()
+                void apply_conf_board()
                 {
                     Board_cell * cell;
                     const Piece *piece;
                     for(const cell_configuration &c : default_board_config)
                     {
-                        cell = find_cell({c.x,c.y});
-                        piece = this->pieces_properties[c.Piece_index];
-                        if(!cell){
-                            continue;
-                        }
-                        cell->put_piece(piece->piece_name(),c.Piece_owner);
-                        cell = nullptr;
+                        analize_cell_configuration(c);
+                        // cell = find_cell({c.x,c.y});
+                        // piece = this->pieces_properties[c.Piece_index];
+                        // if(!cell){
+                        //     continue;
+                        // }
+                        // cell->put_piece(piece->piece_name(),c.Piece_owner);
+                        // cell = nullptr;
                     }
+                }
+                void apply_conf_board(const vector<cell_configuration> &board_conf)
+                {
+                    Board_cell * cell;
+                    const Piece *piece;
+                    for(const cell_configuration &c : default_board_config)
+                    {
+                        analize_cell_configuration(c);
+                        // cell = find_cell({c.x,c.y});
+                        // piece = this->pieces_properties[c.Piece_index];
+                        // if(!cell){
+                        //     continue;
+                        // }
+                        // cell->put_piece(piece->piece_name(),c.Piece_owner);
+                        // cell = nullptr;
+                    }
+                }
+                
+                void analize_cell_configuration(const cell_configuration &c)
+                {
+                    Board_cell * cell;
+                    const Piece *piece;
+                    cell = find_cell({c.x,c.y});
+                    if(c.Piece_index == -1){
+                        cell->reset();
+                        return;
+                    }
+                    piece = this->pieces_properties[c.Piece_index];
+                    if(!cell){
+                        return;
+                    }
+                    cell->put_piece(piece->piece_name(),c.Piece_owner);
+                    cell = nullptr;
                 }
                 int find_player(const unsigned int player) const
                 {

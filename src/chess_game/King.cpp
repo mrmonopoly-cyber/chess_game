@@ -42,10 +42,12 @@ std::vector<struct framework::position> *King::context_to_check(
 }
 
 bool King::valid_move(const std::vector<framework::Board_cell> & context_array,
-        std::vector<struct framework::position> *positions)const
+        std::vector<struct framework::position> *positions,
+        std::vector<framework::cell_configuration> &out_secondary_effect)const 
 {
     unsigned int c_size = context_array.size();
     unsigned int i=0;
+    //castle 
     if(c_size==4 || c_size==5){
         if(context_array[0].get_type() == this->name && context_array[0].no_moved()){
 
@@ -54,11 +56,30 @@ bool King::valid_move(const std::vector<framework::Board_cell> & context_array,
                     return false;
                 }
             }
-            if(context_array[i].get_type() == "Rook" && context_array[i].no_moved()){
-                return true;
+            if(context_array[i].get_type() != "Rook" || !context_array[i].no_moved()){
+                return false;
             }
         }
-        return false;
+        //secondary effect of castle
+
+        framework::position & future_rook_pos = positions->at(1);
+        framework::position & old_rook_pos = positions->at(c_size - 1);
+        out_secondary_effect.push_back(
+                {
+                    future_rook_pos.x,
+                    future_rook_pos.y,
+                    3,  //warning to change in board_cell.h from index to name of the piece
+                    context_array[0].get_owner()
+                });
+        out_secondary_effect.push_back(
+                {
+                    old_rook_pos.x,
+                    old_rook_pos.y,
+                    -1,  //warning to change in board_cell.h from index to name of the piece
+                    context_array[0].get_owner()
+                });
+
+        return true;
     }
-    return Generic_chess_piece::valid_move(context_array,positions);
+    return Generic_chess_piece::valid_move(context_array,positions,out_secondary_effect);
 }

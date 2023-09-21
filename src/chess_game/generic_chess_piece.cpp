@@ -27,7 +27,8 @@ Generic_chess_piece::~Generic_chess_piece()
 }
 
 bool Generic_chess_piece::valid_move(const std::vector<framework::Board_cell> & context_array,
-        std::vector<struct framework::position> *positions)const
+        std::vector<struct framework::position> *positions,
+std::vector<framework::cell_configuration> &out_secondary_effect)const
 {
     if(context_array.empty()){
         return false;

@@ -43,8 +43,10 @@ std::vector<struct framework::position> *Pawn::context_to_check(
     }
     return nullptr;
 }
-bool Pawn::valid_move(const std::vector<framework::Board_cell> & context_array,
-        std::vector<struct framework::position> *positions)const
+
+bool Pawn::valid_move(const std::vector<framework::Board_cell> &context_array,
+        std::vector<struct framework::position> *positions,
+        std::vector<framework::cell_configuration> &out_secondary_effect)const
 {
     if(context_array.empty() || context_array.at(0).get_type()!="Pawn"){
         return false;
