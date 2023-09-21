@@ -261,13 +261,17 @@ namespace framework {
                 {
                     Board_cell * cell;
                     const Piece *piece;
+
                     cell = find_cell({c.x,c.y});
-                    if(c.Piece_index == -1){
+                    piece = find_piece_category(c.Piece_type);
+                    if(!cell){
+                        return;
+                    }
+                    if(c.Piece_owner == -1){
                         cell->reset();
                         return;
                     }
-                    piece = this->pieces_properties[c.Piece_index];
-                    if(!cell){
+                    if(!piece){
                         return;
                     }
                     cell->put_piece(piece->piece_name(),c.Piece_owner);

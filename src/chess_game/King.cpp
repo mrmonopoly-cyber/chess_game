@@ -68,15 +68,15 @@ bool King::valid_move(const std::vector<framework::Board_cell> & context_array,
                 {
                     future_rook_pos.x,
                     future_rook_pos.y,
-                    3,  //warning to change in board_cell.h from index to name of the piece
+                    "Rook",  
                     context_array[0].get_owner()
                 });
         out_secondary_effect.push_back(
                 {
                     old_rook_pos.x,
                     old_rook_pos.y,
-                    -1,  //warning to change in board_cell.h from index to name of the piece
-                    context_array[0].get_owner()
+                    "",  
+                    -1
                 });
 
         return true;

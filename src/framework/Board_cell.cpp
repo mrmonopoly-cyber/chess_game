@@ -16,7 +16,7 @@ void Board_cell::reset()
     never_moved=true;
 }
 
-unsigned int Board_cell::get_owner() const
+int Board_cell::get_owner() const
 {
     return this->owner;
 }

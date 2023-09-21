@@ -12,8 +12,8 @@ namespace framework{
     {
         const unsigned int x;
         const unsigned int y;
-        const int Piece_index;
-        const unsigned int Piece_owner;
+        const std::string Piece_type;
+        const int Piece_owner;
     };
     struct position{
         unsigned int x;
@@ -38,7 +38,7 @@ namespace framework{
             /*
              * METHOD: return the player of the piece in the current cell
              */
-            unsigned int get_owner()const;
+            int get_owner()const;
             /*
              * METHOD: return the name of the piece in the cell
              */
