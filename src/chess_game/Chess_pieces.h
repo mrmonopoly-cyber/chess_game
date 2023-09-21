@@ -75,6 +75,11 @@ namespace chess {
         public:
             King();
             ~King() override;
+            std::vector<struct framework::position> *context_to_check(
+                    framework::position &start_position, framework::position &end_position,
+                    const unsigned int owner)const override;
+            bool valid_move(const std::vector<framework::Board_cell> & context_array,
+                    std::vector<struct framework::position> *positions)const override;
     };
 
 #pragma endregion KING
