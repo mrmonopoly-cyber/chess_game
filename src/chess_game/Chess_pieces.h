@@ -13,8 +13,9 @@ namespace chess {
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
             bool valid_move(const std::vector<framework::Board_cell> &context_array,
-                    std::vector<struct framework::position> *positions,
-                    std::vector<framework::cell_configuration> &out_secondary_effect)const override;
+                    const std::vector<struct framework::position> *positions,
+                    std::vector<framework::cell_configuration> &out_secondary_effect,
+                    const framework::Board_move_log &log)const override;
     };
 #pragma endregion PAWN
 #pragma region KNIGHT
@@ -27,8 +28,9 @@ namespace chess {
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
             bool valid_move(const std::vector<framework::Board_cell> &context_array,
-                    std::vector<struct framework::position> *positions,
-                    std::vector<framework::cell_configuration> &out_secondary_effect)const override;
+                    const std::vector<struct framework::position> *positions,
+                    std::vector<framework::cell_configuration> &out_secondary_effect,
+                    const framework::Board_move_log &log)const override;
         private:
             bool l_movement(framework::position &start_position, framework::position &end_position) const;
     };
@@ -79,8 +81,9 @@ namespace chess {
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
             bool valid_move(const std::vector<framework::Board_cell> & context_array,
-                    std::vector<struct framework::position> *positions,
-                    std::vector<framework::cell_configuration> &out_secondary_effect)const override;
+                    const std::vector<struct framework::position> *positions,
+                    std::vector<framework::cell_configuration> &out_secondary_effect,
+                    const framework::Board_move_log &log)const override;
     };
 
 #pragma endregion KING

@@ -9,7 +9,8 @@
 #include <string>
 #include <vector>
 
-#include "Board_cell.h"
+#include "include/framework/Board_move_log.h"
+#include "include/framework/Board_cell.h"
 
 namespace framework {
     class Piece {
@@ -38,8 +39,9 @@ namespace framework {
              *          FALSE : invalid move
              */
             virtual bool valid_move(const std::vector<Board_cell> &context_array,
-                    std::vector<struct framework::position> *positions,
-                    std::vector<cell_configuration> &out_secondary_effect)const =0;
+                    const std::vector<struct framework::position> *positions,
+                    std::vector<cell_configuration> &out_secondary_effect,
+                    const framework::Board_move_log &log)const =0;
     
         protected:
             const std::string name;

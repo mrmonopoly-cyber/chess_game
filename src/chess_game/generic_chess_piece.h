@@ -5,6 +5,7 @@
  */
 #include "include/framework/Piece.h"
 #include "include/framework/Board_cell.h"
+#include "include/framework/Board_move_log.h"
 
 namespace chess{
     class Generic_chess_piece : public framework::Piece
@@ -19,8 +20,9 @@ namespace chess{
                     framework::position &start_position, framework::position &end_position,
                     const unsigned int owner)const override;
             virtual bool valid_move(const std::vector<framework::Board_cell> & context_array,
-                    std::vector<struct framework::position> *positions,
-                    std::vector<framework::cell_configuration> &out_secondary_effect)const override;
+                    const std::vector<struct framework::position> *positions,
+                    std::vector<framework::cell_configuration> &out_secondary_effect,
+                    const framework::Board_move_log & log)const override;
 
 
         protected:

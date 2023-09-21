@@ -42,8 +42,9 @@ std::vector<struct framework::position> *King::context_to_check(
 }
 
 bool King::valid_move(const std::vector<framework::Board_cell> & context_array,
-        std::vector<struct framework::position> *positions,
-        std::vector<framework::cell_configuration> &out_secondary_effect)const 
+        const std::vector<struct framework::position> *positions,
+        std::vector<framework::cell_configuration> &out_secondary_effect,
+        const framework::Board_move_log &log)const 
 {
     unsigned int c_size = context_array.size();
     unsigned int i=0;
@@ -62,8 +63,8 @@ bool King::valid_move(const std::vector<framework::Board_cell> & context_array,
         }
         //secondary effect of castle
 
-        framework::position & future_rook_pos = positions->at(1);
-        framework::position & old_rook_pos = positions->at(c_size - 1);
+        const framework::position & future_rook_pos = positions->at(1);
+        const framework::position & old_rook_pos = positions->at(c_size - 1);
         out_secondary_effect.push_back(
                 {
                     future_rook_pos.x,
@@ -81,5 +82,5 @@ bool King::valid_move(const std::vector<framework::Board_cell> & context_array,
 
         return true;
     }
-    return Generic_chess_piece::valid_move(context_array,positions,out_secondary_effect);
+    return Generic_chess_piece::valid_move(context_array,positions,out_secondary_effect,log);
 }

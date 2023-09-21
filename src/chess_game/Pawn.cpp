@@ -45,21 +45,42 @@ std::vector<struct framework::position> *Pawn::context_to_check(
 }
 
 bool Pawn::valid_move(const std::vector<framework::Board_cell> &context_array,
-        std::vector<struct framework::position> *positions,
-        std::vector<framework::cell_configuration> &out_secondary_effect)const
+        const std::vector<struct framework::position> *positions,
+        std::vector<framework::cell_configuration> &out_secondary_effect,
+        const framework::Board_move_log &log)const
 {
     if(context_array.empty() || context_array.at(0).get_type()!="Pawn"){
         return false;
     }
     //single push ,attack normal
     if(context_array.size()== 2){
-        return 
+        const framework::Board_move_log::Log *last_move = log.last_move();
+        if(
             //single push
-            (context_array.at(1).is_empty() &&
-                positions->at(0).x == positions->at(1).x) ||
+            (context_array.at(1).is_empty() && positions->at(0).x == positions->at(1).x) ||
             //attack normal
             (positions->at(0).x != positions->at(1).x &&
-             context_array.at(0).get_owner() != context_array.at(1).get_owner());
+             context_array.at(0).get_owner() != context_array.at(1).get_owner()))
+        {
+            return true;
+        }
+            //en Passant
+            if(
+            last_move->piece_type == "Pawn" && 
+            last_move->start_x == last_move->dest_x &&
+            (abs((int)last_move->start_y - (int)last_move->dest_y)) == 2 &&
+            last_move->start_x == positions->at(1).x &&
+            context_array.at(1).is_empty())
+            {
+                out_secondary_effect.push_back(
+                        {
+                            last_move->dest_x,
+                            last_move->dest_y,
+                            last_move->piece_type,
+                            -1,
+                        });
+                return true;
+            }
     }
     //double push
     if(context_array.size()==3){

@@ -28,8 +28,10 @@
 #include <functional>
 
 #include "Board_cell.h"
+#include "Board_move_log.h"
 #include "include/framework/Piece.h"
 #include "include/framework/Board_cell.h"
+#include "include/framework/Board_move_log.h"
 
 #define BOARD Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER,N_DEF_PIECE> 
 using std::array;
@@ -51,7 +53,7 @@ namespace framework {
                 BOARD(const array<const Piece*,PIECE_TYPES> &pieces_properties,
                         const array<const cell_configuration,N_DEF_PIECE> & default_board_config)
                     :pieces_properties(pieces_properties),players({}),
-                    default_board_config(default_board_config)
+                    default_board_config(default_board_config),history()
                 {
                     apply_conf_board();
                     for(int i=0;i<N_PLAYER;i++){
@@ -71,7 +73,7 @@ namespace framework {
                         const array<const cell_configuration,N_DEF_PIECE> & default_board_config,
                         const function<bool(void)>board_peculiar_status_maintained)
                 :pieces_properties(pieces_properties),
-                    default_board_config(default_board_config),
+                    default_board_config(default_board_config),history(),
                     board_peculiar_status_maintained(board_peculiar_status_maintained)
                 {
                     apply_conf_board();
@@ -179,7 +181,7 @@ namespace framework {
                         }
                     }                  
                     //checking phase
-                    if(start_piece->valid_move(pc,context_to_check,secondary_effect) 
+                    if(start_piece->valid_move(pc,context_to_check,secondary_effect,history) 
                             && board_peculiar_status_maintained())
                     {
                         //moving piece
@@ -190,6 +192,14 @@ namespace framework {
                                 analize_cell_configuration(c);
                             }
                         }
+                        this->history.insert({
+                                start_position.x,
+                                start_position.y,
+                                end_position.x,
+                                end_position.y,
+                                player,
+                                start_piece->piece_name()
+                                });
                     }
 
                     //free the memory
@@ -231,13 +241,6 @@ namespace framework {
                     for(const cell_configuration &c : default_board_config)
                     {
                         analize_cell_configuration(c);
-                        // cell = find_cell({c.x,c.y});
-                        // piece = this->pieces_properties[c.Piece_index];
-                        // if(!cell){
-                        //     continue;
-                        // }
-                        // cell->put_piece(piece->piece_name(),c.Piece_owner);
-                        // cell = nullptr;
                     }
                 }
                 void apply_conf_board(const vector<cell_configuration> &board_conf)
@@ -247,13 +250,6 @@ namespace framework {
                     for(const cell_configuration &c : default_board_config)
                     {
                         analize_cell_configuration(c);
-                        // cell = find_cell({c.x,c.y});
-                        // piece = this->pieces_properties[c.Piece_index];
-                        // if(!cell){
-                        //     continue;
-                        // }
-                        // cell->put_piece(piece->piece_name(),c.Piece_owner);
-                        // cell = nullptr;
                     }
                 }
                 
@@ -315,6 +311,7 @@ namespace framework {
                 array<Board_cell,SIDE_H*SIDE_V> board;
                 array<unsigned int,N_PLAYER> players;
                 const array<const cell_configuration,N_DEF_PIECE> & default_board_config;
+                Board_move_log history = Board_move_log();
                 const function<bool(void)>board_peculiar_status_maintained = [](){return true;};
         };
 }  // namespace framework

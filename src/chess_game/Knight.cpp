@@ -29,8 +29,9 @@ std::vector<struct position> *Knight::context_to_check(
 }
 
 bool Knight::valid_move(const std::vector<framework::Board_cell> &context_array,
-        std::vector<struct framework::position> *positions,
-        std::vector<framework::cell_configuration> &out_secondary_effect)const 
+        const std::vector<struct framework::position> *positions,
+        std::vector<framework::cell_configuration> &out_secondary_effect,
+        const framework::Board_move_log &log)const 
 {
     if(context_array.empty()){
         return false;
