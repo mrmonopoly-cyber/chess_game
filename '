@@ -7,9 +7,8 @@ using namespace chess;
 using namespace framework;
 
 //private implementation function
-static const std::array<const Piece*,N_PIECE_TYPES> pieces_init()
-{
-    return
+static ::Board<8,8,6,2,32> initilization(){
+    const std::array<const ::Piece*,6> piece_list =
     {
         new Pawn(),
         new Knight(),
@@ -18,10 +17,7 @@ static const std::array<const Piece*,N_PIECE_TYPES> pieces_init()
         new Queen(),
         new King()
     };
-}
-static const std::array<const cell_configuration,N_INITIAL_PIECES> default_configuration(){
-    const std::array<const Piece*,N_PIECE_TYPES> piece_list = pieces_init();
-    return 
+    const std::array<const ::cell_configuration,32> board_conf = 
     {
         //black pawn
         0,1,piece_list[0]->piece_name(),1,
@@ -68,43 +64,34 @@ static const std::array<const cell_configuration,N_INITIAL_PIECES> default_confi
         //white King
         4,7,piece_list[5]->piece_name(),0
     };
+    return ::Board<8,8,6,2,32>(piece_list,board_conf);
 }
 
 //Chess_board
 
-Chess_board::Chess_board() : Board(pieces_init(),default_configuration())
+Chess_board::Chess_board() : ::Board<8, 8, 6, 2, 32>(initilization())
 {
     //ok to be empty
 }
 
 bool Chess_board::board_peculiar_status_maintained(const unsigned int player) const
 {
-    position pos;
+    std::vector<position> pos(0);
     find_piece_position("King",!player,pos);
     int increment_x =0;
     int increment_y =1;
     //horizontal
-    if(find_enemy_piece(pos,0,1,player) || find_enemy_piece(pos,0,-1,player)){
-        return false;
+    if(find_enemy_piece(pos[0],0,1,player) || find_enemy_piece(pos[0],0,-1,player)){
+        
     }
     //vertical
-     if(find_enemy_piece(pos,1,0,player) || find_enemy_piece(pos,-1,0,player)){
-        return false;
-    }
-
-    //diagonal 
-    if(
-            find_enemy_piece(pos,1,1,player) || 
-            find_enemy_piece(pos,-1,1,player) ||
-            find_enemy_piece(pos,1,-1,player) ||
-            find_enemy_piece(pos,-1,-1,player)
-      ){
-        return false;
-    }
+    //diagonal
     //knight
 
-    // std::cout << "new search\n";
-    // std::cout << pos.x << "," << pos.y << std::endl;
+    std::cout << "new search\n";
+    for(int i=0;i<pos.size();i++){
+        std::cout << pos[i].x << "," << pos[i].y << std::endl;
+    }
     return true;
 }
 bool Chess_board::find_enemy_piece(position &start_position, const int increment_x,
@@ -123,27 +110,27 @@ bool Chess_board::find_enemy_piece(position &start_position, const int increment
             && enemy.x > 0 && enemy.y>0) {
         enemy_cell = find_cell(enemy);
         if(enemy_cell->get_owner() != owner && !enemy_cell->is_empty()){
-            enemy_piece = find_piece_category(enemy_cell->get_type());
-            context_to_check = enemy_piece->context_to_check(start_position,enemy,owner);
+            enemy_piece = find_piece_category(enemy_cell.get_type());
+            context_to_check = enemy_piece.context_to_check(start_position,*enemy,owner);
             if(context_to_check){
-                vector_size = context_to_check->size();
+                vector_size = context_to_check.size();
                 //cells to check
                 if(vector_size){
                     for(int i =0; i < vector_size;i++)
                     {
-                        const Board_cell *b = find_cell(context_to_check->at(i));
+                        const Board_cell *b = find_cell(context_to_check.at(i));
                         if(!b)
                         {
-                            context_to_check->clear();
-                            context_to_check->shrink_to_fit();
+                            context_to_check.clear();
+                            context_to_check.shrink_to_fit();
                             delete context_to_check;
                             return false;
                         }
                         pc.push_back(*b);
                     }
                 }
-                if(enemy_piece->valid_move(pc,context_to_check, secondary_effect,
-                            this->history)){
+                if(enemy_piece.valid_move(pc,context_to_check, secondary_effect,
+                            this.history)){
                     return true;
                 }
             }

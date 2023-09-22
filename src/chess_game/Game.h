@@ -3,19 +3,32 @@
  * Author : Alberto Damo
  * Date : 2023-09-21
  *
- * Implementation of chess board game using the framework in current project
+ * Implementation of chess board game using the  in current project
  */
 #include <cstddef>
+#include <functional>
 #include "include/framework/Board.h"
 #include "include/chess_game/Chess_pieces.h"
 
 #define SIDE_V 8
 #define SIDE_H 8
-#define N_PIECES_TYPES 6
+#define N_PIECE_TYPES 6
 #define N_PLAYERS 2
 #define N_INITIAL_PIECES 32
 
+using namespace framework;
+
 namespace chess {
+    class Chess_board : public Board<SIDE_H, SIDE_V, N_PIECE_TYPES, N_PLAYERS, N_INITIAL_PIECES>
+    {
+        public:
+            Chess_board();
+            bool board_peculiar_status_maintained(const unsigned int player) const override;
+        private:
+            bool find_enemy_piece(position &start_position, const int increment_x,
+                    const int increment_y, const unsigned int owner)const;
+    };
+
     class Chess_game
     {
         public:
@@ -33,14 +46,14 @@ namespace chess {
              * correct the move will be applied and the turn will change to the next player.
              * Else nothing happen, the state of the game will not change
              */
-            void move_piece(framework::position &start,framework::position &end);
+            void move_piece(position &start,position &end);
             /*
              * METHOD: print in std output the current status of the board and the player who has 
              * to play
              */
            void game_status() const;
         private:
-            framework::Board<SIDE_V, SIDE_H, N_PIECES_TYPES, N_PLAYERS, N_INITIAL_PIECES> board;
+            Chess_board board;
             unsigned char current_player_turn = 0;
     };
 }

@@ -9,6 +9,11 @@ Board_cell::Board_cell()
     //ok to be empty
 }
 
+Board_cell::Board_cell(const Board_cell & board) 
+    : piece_type(board.piece_type), owner(board.owner), never_moved(board.never_moved)
+{
+    //ok to be empty
+}
 void Board_cell::reset()
 {
     piece_type.clear();

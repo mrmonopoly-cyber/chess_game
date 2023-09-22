@@ -28,12 +28,10 @@
 #include <functional>
 
 #include "Board_cell.h"
-#include "Board_move_log.h"
 #include "include/framework/Piece.h"
 #include "include/framework/Board_cell.h"
 #include "include/framework/Board_move_log.h"
 
-#define BOARD Board<SIDE_H,SIDE_V,PIECE_TYPES,N_PLAYER,N_DEF_PIECE> 
 using std::array;
 using std::function;
 using std::vector;
@@ -50,10 +48,10 @@ namespace framework {
                  *      of the game
                  *  After the Board is created it will also apply the default board configuration
                  */
-                BOARD(const array<const Piece*,PIECE_TYPES> &pieces_properties,
+                Board(const array<const Piece*,PIECE_TYPES> &pieces_properties,
                         const array<const cell_configuration,N_DEF_PIECE> & default_board_config)
-                    :pieces_properties(pieces_properties),players({}),
-                    default_board_config(default_board_config),history()
+                    :pieces_properties(pieces_properties),
+                    default_board_config(default_board_config)
                 {
                     apply_conf_board();
                     for(int i=0;i<N_PLAYER;i++){
@@ -61,27 +59,8 @@ namespace framework {
                     }
                 }
 
-                /*CONSTRUCTOR: it will create a board with a peculiar status to check
-                 * @ piece_properties : Array of all the piece category of the game
-                 * @ default_board_config : Array with the initial configuration at the beginning 
-                 *      of the game
-                 * @ board_peculiar_status_maintained : Function which will return true if the 
-                 *   peculiar status of the board is maintained
-                 *  After the Board is created it will also apply the default board configuration
-                 */
-                BOARD(const array<const Piece*,PIECE_TYPES> &pieces_properties,
-                        const array<const cell_configuration,N_DEF_PIECE> & default_board_config,
-                        const function<bool(void)>board_peculiar_status_maintained)
-                :pieces_properties(pieces_properties),
-                    default_board_config(default_board_config),history(),
-                    board_peculiar_status_maintained(board_peculiar_status_maintained)
-                {
-                    apply_conf_board();
-                }
-
                 ~Board()
                 {
-                    //ok to be empty
                 }
 
                 /* METHOD : it will reset the board restoring as it was in the beginning of the 
@@ -181,12 +160,22 @@ namespace framework {
                         }
                     }                  
                     //checking phase
-                    if(start_piece->valid_move(pc,context_to_check,secondary_effect,history) 
-                            && board_peculiar_status_maintained())
+                    if(start_piece->valid_move(pc,context_to_check,secondary_effect,history))
                     {
                         //moving piece
+                        Board_cell copy_cell = Board_cell(*dest_cell);
                         dest_cell->overwrite(*start_cell);
                         start_cell->reset();
+                        if(!board_peculiar_status_maintained(player)){
+                            start_cell->overwrite(*dest_cell);
+                            dest_cell->overwrite(copy_cell);
+                            if(context_to_check){
+                                context_to_check->clear();
+                                context_to_check->shrink_to_fit();
+                                delete context_to_check;
+                            }
+                            return false;
+                        }
                         if(!secondary_effect.empty()){
                             for(const cell_configuration &c : secondary_effect){
                                 analize_cell_configuration(c);
@@ -233,7 +222,11 @@ namespace framework {
                 const unsigned int board_area()const{
                     return SIDE_V * SIDE_H;
                 }
-            private:
+
+                virtual bool board_peculiar_status_maintained(const unsigned int player) const{
+                    return true;
+                }
+            protected:
                 void apply_conf_board()
                 {
                     Board_cell * cell;
@@ -292,7 +285,41 @@ namespace framework {
 
                     return &board[index];
                 }
-                const Piece *find_piece_category(const std::string &piece_type)
+                const Board_cell *find_cell(const struct position &pos) const
+                {
+                    const unsigned int index = pos.x + (pos.y * SIDE_V);   
+                    if(index >= 0 && index > (SIDE_H * SIDE_V))
+                    {
+                        return nullptr;
+                    }
+
+                    return &board[index];
+                }
+                Board_cell *find_cell(const std::string piece, const unsigned int owner) const
+                {
+                    for(int i=0;i<SIDE_V*SIDE_H;i++){
+                        if(board[i].get_type == piece && board[i].get_owner == owner){
+                            return &board[i];
+                        }
+                    }
+                    return nullptr;
+                }
+
+                const void find_piece_position(const std::string piece, 
+                        const unsigned int owner, position &out) const
+                {
+                     for(int i=0;i<SIDE_V*SIDE_H;i++){
+                        if(board[i].get_type() == piece && board[i].get_owner()==owner){
+                            out = 
+                            {
+                                i%SIDE_V,
+                                i/SIDE_H
+                            };
+                        }
+                    }
+
+                }
+                const Piece *find_piece_category(const std::string &piece_type) const
                 {
                     if(piece_type.empty()){
                         return nullptr;
@@ -312,6 +339,5 @@ namespace framework {
                 array<unsigned int,N_PLAYER> players;
                 const array<const cell_configuration,N_DEF_PIECE> & default_board_config;
                 Board_move_log history = Board_move_log();
-                const function<bool(void)>board_peculiar_status_maintained = [](){return true;};
         };
 }  // namespace framework

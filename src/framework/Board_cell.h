@@ -25,6 +25,7 @@ namespace framework{
             /*
              * METHOD: return true if the cell is unoccupied 
              */
+            Board_cell(const Board_cell &cell);
             bool is_empty()const;
             /*
              * METHOD : return true if the cell has never be altered since the beginning of 
