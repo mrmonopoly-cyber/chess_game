@@ -9,16 +9,12 @@ int main(int argc, char *argv[]) {
     chess::Chess_game game;
     position moves[] = 
     {
-        0,6,
-        0,5,
-        4,1,
-        4,3,
-        1,6,
-        1,5,
-        3,0,
-        7,4,
         5,6,
         5,5,
+        6,0,
+        5,2,
+        0,6,
+        0,5,
     };
     for(int i=0;i<sizeof(moves) / sizeof(moves[0]);i+=2)
     {

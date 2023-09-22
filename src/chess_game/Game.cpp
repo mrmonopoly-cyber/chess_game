@@ -81,21 +81,41 @@ Chess_board::Chess_board() : Board(pieces_init(),default_configuration())
 bool Chess_board::board_peculiar_status_maintained(const unsigned int player) const
 {
     position pos;
+    int i,j;
     find_piece_position("King",player,pos);
-    int increment_x =0;
-    int increment_y =1;
-    for(int i=-1;i<2;i++){
-        for(int j=-1;j<2;j++){
+    
+    //other pieces 
+    for(i=-1;i<2;i++){
+        for(j=-1;j<2;j++){
             if((i || j)  && find_enemy_piece(pos, i, j, player)){
                 return false;
             }
         }       
     }
     //knight
-
-    // std::cout << "new search\n";
-    // std::cout << pos.x << "," << pos.y << std::endl;
+    for(i=-2;i<3;i++){
+        switch (abs(i)) {
+            case 2:
+                j=1;
+                break;
+            case 1:
+                j=2;
+                break;
+            default:
+                continue;
+        }
+        if(is_enemy_knight({pos.x + i, pos.y+j},player) ||
+        is_enemy_knight({pos.x + i, pos.y+(-1 * j)},player)){
+            return false;
+        }
+    }
     return true;
+}
+bool Chess_board::is_enemy_knight(position pos, const unsigned int player) const
+{
+    const Board_cell * cell;
+    cell = find_cell(pos);
+    return cell && cell->get_type() == "Knight" && cell->get_owner() != player;
 }
 bool Chess_board::find_enemy_piece(position &start_position, const int increment_x,
         const int increment_y,const unsigned int owner) const

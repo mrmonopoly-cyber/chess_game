@@ -27,6 +27,7 @@ namespace chess {
         private:
             bool find_enemy_piece(position &start_position, const int increment_x,
                     const int increment_y, const unsigned int owner)const;
+            bool is_enemy_knight(position pos, const unsigned int player) const;
     };
 
     class Chess_game
