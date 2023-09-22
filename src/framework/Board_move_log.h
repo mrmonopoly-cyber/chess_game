@@ -9,10 +9,10 @@ namespace framework{
     {
         public:
             struct Log{
-                unsigned start_x;
-                unsigned start_y;
-                unsigned dest_x;
-                unsigned dest_y;
+                int start_x;
+                int start_y;
+                int dest_x;
+                int dest_y;
                 unsigned int player;
                 std::string piece_type;
             };

@@ -312,8 +312,8 @@ namespace framework {
                         if(board[i].get_type() == piece && board[i].get_owner()==owner){
                             out = 
                             {
-                                i%SIDE_V,
-                                i/SIDE_H
+                                i%(int)SIDE_V,
+                                i/(int)SIDE_H
                             };
                         }
                     }

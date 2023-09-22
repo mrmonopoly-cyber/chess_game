@@ -1,6 +1,7 @@
 #include "include/chess_game/Game.h"
 #include "Game.h"
 #include "include/chess_game/Chess_pieces.h"
+#include <algorithm>
 #include <array>
 
 using namespace chess;
@@ -80,26 +81,15 @@ Chess_board::Chess_board() : Board(pieces_init(),default_configuration())
 bool Chess_board::board_peculiar_status_maintained(const unsigned int player) const
 {
     position pos;
-    find_piece_position("King",!player,pos);
+    find_piece_position("King",player,pos);
     int increment_x =0;
     int increment_y =1;
-    //horizontal
-    if(find_enemy_piece(pos,0,1,player) || find_enemy_piece(pos,0,-1,player)){
-        return false;
-    }
-    //vertical
-     if(find_enemy_piece(pos,1,0,player) || find_enemy_piece(pos,-1,0,player)){
-        return false;
-    }
-
-    //diagonal 
-    if(
-            find_enemy_piece(pos,1,1,player) || 
-            find_enemy_piece(pos,-1,1,player) ||
-            find_enemy_piece(pos,1,-1,player) ||
-            find_enemy_piece(pos,-1,-1,player)
-      ){
-        return false;
+    for(int i=-1;i<2;i++){
+        for(int j=-1;j<2;j++){
+            if((i || j)  && find_enemy_piece(pos, i, j, player)){
+                return false;
+            }
+        }       
     }
     //knight
 
@@ -111,37 +101,30 @@ bool Chess_board::find_enemy_piece(position &start_position, const int increment
         const int increment_y,const unsigned int owner) const
 {
     const Board_cell *king_cell = find_cell(start_position);
-    position enemy;
+    position enemy = start_position;
     const Board_cell *enemy_cell;
     const Piece *enemy_piece;
     vector<struct position> *context_to_check;
     vector<Board_cell> pc = vector<Board_cell>(0);
     vector<cell_configuration> secondary_effect;
-    unsigned int vector_size;
+
+    enemy_cell = find_cell(enemy);
+    pc.push_back(*enemy_cell);
+    enemy.x+=increment_x;
+    enemy.y+=increment_y;
 
     while (enemy.x < SIDE_H && enemy.y < SIDE_V 
-            && enemy.x > 0 && enemy.y>0) {
+            && enemy.x >= 0 && enemy.y >= 0) {
         enemy_cell = find_cell(enemy);
-        if(enemy_cell->get_owner() != owner && !enemy_cell->is_empty()){
+        pc.push_back(*enemy_cell);
+        if(!enemy_cell->is_empty() && enemy_cell->get_owner() == owner){
+            return false;
+        }
+        if(!enemy_cell->is_empty()){
             enemy_piece = find_piece_category(enemy_cell->get_type());
-            context_to_check = enemy_piece->context_to_check(start_position,enemy,owner);
+            context_to_check = enemy_piece->context_to_check(enemy,start_position,owner);
             if(context_to_check){
-                vector_size = context_to_check->size();
-                //cells to check
-                if(vector_size){
-                    for(int i =0; i < vector_size;i++)
-                    {
-                        const Board_cell *b = find_cell(context_to_check->at(i));
-                        if(!b)
-                        {
-                            context_to_check->clear();
-                            context_to_check->shrink_to_fit();
-                            delete context_to_check;
-                            return false;
-                        }
-                        pc.push_back(*b);
-                    }
-                }
+                std::reverse(pc.begin(),pc.end());
                 if(enemy_piece->valid_move(pc,context_to_check, secondary_effect,
                             this->history)){
                     return true;

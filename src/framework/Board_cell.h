@@ -10,14 +10,14 @@
 namespace framework{
     struct cell_configuration
     {
-        const unsigned int x;
-        const unsigned int y;
+        const int x;
+        const int y;
         const std::string Piece_type;
         const int Piece_owner;
     };
     struct position{
-        unsigned int x;
-        unsigned int y;
+        int x;
+        int y;
     };
     class Board_cell{
         public:
