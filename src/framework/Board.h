@@ -121,22 +121,23 @@ namespace framework {
                     vector<Board_cell> pc = vector<Board_cell>(0);
                     vector<cell_configuration> secondary_effect;
                     unsigned int vector_size;
+                    bool valid_move = false;
 
                     //cells
                     start_cell = find_cell(start_position);
                     if(!start_cell || start_cell->get_owner() != player){
-                        return false;
+                        return valid_move;
                     }
                     dest_cell = find_cell(end_position);
                     if(!dest_cell)
                     {
-                        return false;
+                        return valid_move;
                     }
 
                     //piece
                     start_piece = find_piece_category(start_cell->get_type());
                     if(!start_piece){
-                        return false;
+                        return valid_move;
                     }
 
                     //position to check   
@@ -189,15 +190,16 @@ namespace framework {
                                 player,
                                 start_piece->piece_name()
                                 });
+                        valid_move = true;
                     }
-
                     //free the memory
                     if(context_to_check){
                         context_to_check->clear();
                         context_to_check->shrink_to_fit();
                         delete context_to_check;
                     }
-                    return true;
+                    return valid_move;
+
                 }
 
                 /*METHOD: print in std output the current status of the board, it does not 
