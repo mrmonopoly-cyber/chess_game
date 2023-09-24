@@ -88,6 +88,7 @@ bool Chess_board::board_peculiar_status_maintained(const unsigned int player) co
     for(i=-1;i<2;i++){
         for(j=-1;j<2;j++){
             if((i || j)  && find_enemy_piece(pos, i, j, player)){
+                kings_check[player] = true;
                 return false;
             }
         }       
@@ -106,9 +107,12 @@ bool Chess_board::board_peculiar_status_maintained(const unsigned int player) co
         }
         if(is_enemy_knight({pos.x + i, pos.y+j},player) ||
         is_enemy_knight({pos.x + i, pos.y+(-1 * j)},player)){
+            kings_check[player] = true;
             return false;
         }
     }
+
+    kings_check[player] = false;
     return true;
 }
 bool Chess_board::is_enemy_knight(position pos, const unsigned int player) const

@@ -5,6 +5,7 @@
  *
  * Implementation of chess board game using the  in current project
  */
+#include <array>
 #include <cstddef>
 #include <functional>
 #include "include/framework/Board.h"
@@ -28,6 +29,9 @@ namespace chess {
             bool find_enemy_piece(position &start_position, const int increment_x,
                     const int increment_y, const unsigned int owner)const;
             bool is_enemy_knight(position pos, const unsigned int player) const;
+
+
+            mutable std::array<bool,2> kings_check = {false,false};
     };
 
     class Chess_game
