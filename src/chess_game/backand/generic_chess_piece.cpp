@@ -1,5 +1,4 @@
 #include "generic_chess_piece.h"
-#include "include/chess_game/Chess_pieces.h"
 
 using namespace chess;
 

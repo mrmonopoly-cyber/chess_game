@@ -16,29 +16,29 @@ Board_move_log.o : include/framework/Board_move_log.cpp
 Board_cell.o : include/framework/Piece.cpp
 	g++ $(optimization) -c -g include/framework/Board_cell.cpp
 
-generic_chess_piece.o : include/chess_game/generic_chess_piece.cpp
-	g++ $(optimization) -c -g include/chess_game/generic_chess_piece.cpp
+generic_chess_piece.o : include/chess_game/backand/generic_chess_piece.cpp
+	g++ $(optimization) -c -g include/chess_game/backand/generic_chess_piece.cpp
 
-Game.o : include/chess_game/Game.cpp
-	g++ $(optimization) -c -g include/chess_game/Game.cpp
+Game.o : include/chess_game/backand/Game.cpp
+	g++ $(optimization) -c -g include/chess_game/backand/Game.cpp
 
-Pawn.o : include/chess_game/Pawn.cpp  
-	g++ $(optimization) -c -g include/chess_game/Pawn.cpp 
+Pawn.o : include/chess_game/backand/Pawn.cpp  
+	g++ $(optimization) -c -g include/chess_game/backand/Pawn.cpp 
 
-Knight.o : include/chess_game/Knight.cpp  
-	g++ $(optimization) -c -g include/chess_game/Knight.cpp 
+Knight.o : include/chess_game/backand/Knight.cpp  
+	g++ $(optimization) -c -g include/chess_game/backand/Knight.cpp 
 
-Bishop.o : include/chess_game/Bishop.cpp  
-	g++ $(optimization) -c -g include/chess_game/Bishop.cpp 
+Bishop.o : include/chess_game/backand/Bishop.cpp  
+	g++ $(optimization) -c -g include/chess_game/backand/Bishop.cpp 
 
-Rook.o : include/chess_game/Rook.cpp  
-	g++ $(optimization) -c -g include/chess_game/Rook.cpp 
+Rook.o : include/chess_game/backand/Rook.cpp  
+	g++ $(optimization) -c -g include/chess_game/backand/Rook.cpp 
 
-Queen.o : include/chess_game/Queen.cpp  
-	g++ $(optimization) -c -g include/chess_game/Queen.cpp 
+Queen.o : include/chess_game/backand/Queen.cpp  
+	g++ $(optimization) -c -g include/chess_game/backand/Queen.cpp 
 
-King.o : include/chess_game/King.cpp  
-	g++ $(optimization) -c -g include/chess_game/King.cpp 
+King.o : include/chess_game/backand/King.cpp  
+	g++ $(optimization) -c -g include/chess_game/backand/King.cpp 
 
 test_file.o : test_file.cpp
 	g++ $(optimization) -c -g test_file.cpp

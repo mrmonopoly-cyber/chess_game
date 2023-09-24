@@ -1,6 +1,4 @@
-#include "include/chess_game/Game.h"
-#include "Game.h"
-#include "include/chess_game/Chess_pieces.h"
+#include "include/chess_game/backand/Game.h"
 #include <algorithm>
 #include <array>
 

@@ -1,6 +1,5 @@
 #include "include/framework/Board.h"
-#include "include/chess_game/generic_chess_piece.h"
-#include "include/chess_game/Game.h"
+#include "include/chess_game/backand/Game.h"
 
 using namespace framework;
 

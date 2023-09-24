@@ -1,6 +1,6 @@
 #pragma once
 #include "include/framework/Piece.h"
-#include "include/chess_game/generic_chess_piece.h"
+#include "include/chess_game/backand/generic_chess_piece.h"
 
 namespace chess {
 #pragma region PAWN

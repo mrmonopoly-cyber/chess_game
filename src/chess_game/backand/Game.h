@@ -9,7 +9,7 @@
 #include <cstddef>
 #include <functional>
 #include "include/framework/Board.h"
-#include "include/chess_game/Chess_pieces.h"
+#include "include/chess_game/backand/Chess_pieces.h"
 
 #define SIDE_V 8
 #define SIDE_H 8
